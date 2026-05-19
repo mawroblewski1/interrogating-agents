@@ -1,0 +1,8 @@
+# Model assignments per role. Each value must be a model name available in your local Ollama instance.
+# Run `ollama list` to see what you have pulled.
+# Swap judge to a different model family (e.g. qwen2.5:7b) to avoid shared-bias per Estornell et al.
+
+suspect: llama3.1:8b
+interrogator_selector: llama3.1:8b
+interrogator_generator: llama3.1:8b
+judge: llama3.1:8b
