@@ -1,0 +1,10 @@
+ollama
+sentence-transformers
+chromadb
+pydantic
+pyyaml
+pytest
+pandas
+matplotlib
+seaborn
+numpy

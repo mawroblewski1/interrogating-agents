@@ -1,0 +1,37 @@
+id: housing_prop_123
+question: "Shall the city rezone single-family neighborhoods to allow multi-unit housing
+  developments of up to four units per lot?"
+source: "California SB 9 (2021) and local upzoning ballot measures; non-partisan framing
+  drawn from public legislative analysis"
+
+n_turns: 6
+n_quads: 5
+suspect_information: aligned_only
+
+supporters:
+  summary: "Increases housing supply, reduces costs, addresses shortage near transit and jobs"
+  key_arguments:
+    - Rezoning increases housing supply, which puts downward pressure on rents and purchase prices
+    - Allows homeowners to build accessory dwelling units for family members or rental income
+    - Concentrates new density near existing roads, utilities, and transit rather than sprawl
+    - Exclusionary single-family zoning has historically reinforced residential segregation
+    - More housing units near job centers reduces long commutes and associated emissions
+
+opponents:
+  summary: "Threatens neighborhood character, strains infrastructure, removes local democratic control"
+  key_arguments:
+    - Overrides locally elected planning boards and removes community input on neighborhood changes
+    - Existing water, sewer, and school infrastructure was not designed for higher density
+    - Irreversible physical changes to established neighborhoods with tree canopy and open space
+    - Increased density benefits developers disproportionately over long-term residents
+    - Property values of adjacent single-family homes may decline, harming owners' primary asset
+
+suspect_values:
+  for:
+    - housing affordability
+    - urban sustainability
+    - community access and equity
+  against:
+    - property rights
+    - neighborhood character and stability
+    - local democratic control
