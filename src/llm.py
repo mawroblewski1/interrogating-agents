@@ -43,7 +43,7 @@ def generate(
     )
 
     try:
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=180) as resp:
             body = json.loads(resp.read())
     except urllib.error.HTTPError as e:
         raise RuntimeError(f"Ollama HTTP {e.code}: {e.read().decode()}") from e

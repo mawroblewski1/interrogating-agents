@@ -37,13 +37,26 @@ class TurnRecord:
 
 
 @dataclass
+class DialogueResult:
+    """Dialogue loop output before judge scoring. Used by quad.py for batch scoring."""
+    config: TrialConfig
+    utterances: list[str]      # suspect utterances only, one per turn
+    turns: list[TurnRecord]    # stance_score=0 until filled by caller
+
+
+@dataclass
 class TrialResult:
     config: TrialConfig
     scores: list[int]           # one per suspect turn, length = n_turns + 1
     turns: list[TurnRecord]
 
 
-def run_trial(cfg: TrialConfig) -> TrialResult:
+def run_dialogue(cfg: TrialConfig) -> DialogueResult:
+    """Run the conversation loop and return utterances without judge scoring.
+
+    Separated from run_trial so quad.py can batch all four legs into one
+    judge call for calibration consistency.
+    """
     suspect = Suspect(cfg.suspect_model, cfg.topic_card, cfg.direction, seed=cfg.seed)
     interrogator = Interrogator(
         cfg.interrogator_model,
@@ -53,34 +66,35 @@ def run_trial(cfg: TrialConfig) -> TrialResult:
         seed=cfg.seed,
     )
 
-    suspect_utterances: list[str] = []
-    turn_records: list[TurnRecord] = []
+    utterances: list[str] = []
+    turns: list[TurnRecord] = []
 
-    # Turn 0: suspect opens unprompted.
     opening = suspect.opening_statement()
-    suspect_utterances.append(opening)
-    turn_records.append(TurnRecord(turn=0, suspect_says=opening, interrogator_says=None, stance_score=0))
+    utterances.append(opening)
+    turns.append(TurnRecord(turn=0, suspect_says=opening, interrogator_says=None, stance_score=0))
 
     for t in range(1, cfg.n_turns + 1):
-        interrogator_says = interrogator.reply(suspect_utterances[-1])
+        interrogator_says = interrogator.reply(utterances[-1])
         suspect_says = suspect.reply(interrogator_says)
-        suspect_utterances.append(suspect_says)
-        turn_records.append(
-            TurnRecord(turn=t, suspect_says=suspect_says, interrogator_says=interrogator_says, stance_score=0)
-        )
+        utterances.append(suspect_says)
+        turns.append(TurnRecord(turn=t, suspect_says=suspect_says,
+                                interrogator_says=interrogator_says, stance_score=0))
 
-    # Batch judge: score all suspect utterances in one session.
+    return DialogueResult(config=cfg, utterances=utterances, turns=turns)
+
+
+def run_trial(cfg: TrialConfig) -> TrialResult:
+    """Run one full trial leg including judge scoring."""
+    dialogue = run_dialogue(cfg)
     scores = score_batch(
         cfg.judge_model,
         cfg.topic_card["question"],
-        suspect_utterances,
+        dialogue.utterances,
         seed=cfg.seed,
     )
-
-    for i, record in enumerate(turn_records):
+    for i, record in enumerate(dialogue.turns):
         record.stance_score = scores[i]
-
-    return TrialResult(config=cfg, scores=scores, turns=turn_records)
+    return TrialResult(config=cfg, scores=scores, turns=dialogue.turns)
 
 
 def _load_config() -> TrialConfig:
