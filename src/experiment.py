@@ -122,8 +122,8 @@ def main() -> None:
     parser.add_argument("--n_quads",   type=int, default=None)
     parser.add_argument("--n_turns",   type=int, default=defaults["n_turns"])
     parser.add_argument("--seed",      type=int, default=defaults["seed"])
-    parser.add_argument("--condition", default=None, choices=["control"],
-                        help="Override condition for all legs (use 'control' for M2 baseline)")
+    parser.add_argument("--condition", default=None, choices=["control", "treatment"],
+                        help="Override condition for all legs. Omit to run proper quad (legs 0-1=control, 2-3=treatment)")
     args = parser.parse_args()
 
     topic_ids = [args.topic] if args.topic else all_topic_ids

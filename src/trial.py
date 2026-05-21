@@ -24,7 +24,8 @@ class TrialConfig:
     n_turns: int
     seed: int
     suspect_model: str
-    interrogator_model: str
+    interrogator_selector_model: str
+    interrogator_generator_model: str
     judge_model: str
 
 
@@ -59,10 +60,12 @@ def run_dialogue(cfg: TrialConfig) -> DialogueResult:
     """
     suspect = Suspect(cfg.suspect_model, cfg.topic_card, cfg.direction, seed=cfg.seed)
     interrogator = Interrogator(
-        cfg.interrogator_model,
-        cfg.topic_card,
+        selector_model=cfg.interrogator_selector_model,
+        generator_model=cfg.interrogator_generator_model,
+        topic_card=cfg.topic_card,
         suspect_direction=cfg.direction,
         condition=cfg.condition,
+        n_turns=cfg.n_turns,
         seed=cfg.seed,
     )
 
@@ -123,7 +126,8 @@ def _load_config() -> TrialConfig:
         n_turns=args.n_turns,
         seed=args.seed,
         suspect_model=models["suspect"],
-        interrogator_model=models["interrogator_selector"],
+        interrogator_selector_model=models["interrogator_selector"],
+        interrogator_generator_model=models["interrogator_generator"],
         judge_model=models["judge"],
     )
 

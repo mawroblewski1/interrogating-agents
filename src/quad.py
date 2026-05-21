@@ -72,7 +72,8 @@ def run_quad(
             n_turns=n_turns,
             seed=seed,
             suspect_model=models["suspect"],
-            interrogator_model=models["interrogator_selector"],
+            interrogator_selector_model=models["interrogator_selector"],
+            interrogator_generator_model=models["interrogator_generator"],
             judge_model=models["judge"],
         )
         for leg in _QUAD_LEGS
