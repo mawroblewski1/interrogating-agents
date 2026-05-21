@@ -1,0 +1,39 @@
+id: transit_fare_prop_x
+question: "Shall the city eliminate fares on all municipal bus and light rail lines,
+  funding the shortfall through a dedicated half-cent sales tax increase?"
+source: "Composite of fare-free transit ballot measures including Kansas City (2020),
+  Tallinn model, and California AB 1350 discussions; non-partisan framing"
+
+n_turns: 6
+n_quads: 5
+suspect_information: aligned_only
+
+supporters:
+  summary: "Removes a barrier to mobility for low-income riders, reduces car traffic
+    and emissions, and simplifies operations"
+  key_arguments:
+    - Eliminating fares removes the largest barrier to transit use for low-income residents
+    - Fare-free transit increases ridership, reducing car trips and associated emissions
+    - Removing fare collection lowers operating costs and speeds up boarding at every stop
+    - Workers without cars gain reliable, no-cost access to jobs across the city
+    - A half-cent sales tax is broadly distributed and tied directly to transit benefit
+
+opponents:
+  summary: "A sales tax is regressive, fare revenue is significant, and free transit
+    attracts disorder without addressing root coverage gaps"
+  key_arguments:
+    - A sales tax falls disproportionately on lower-income households who spend more of income on goods
+    - Fare revenue funds a meaningful share of operations; the gap may exceed sales tax projections
+    - Removing fares without improving frequency and coverage will not meaningfully shift car users
+    - Fare-free systems in other cities have experienced increases in antisocial behavior on vehicles
+    - Transit agencies need stable, dedicated funding tied to ridership incentives, not blank checks
+
+suspect_values:
+  for:
+    - mobility equity and access for all
+    - environmental sustainability and emissions reduction
+    - public investment in shared infrastructure
+  against:
+    - fiscal responsibility and tax burden
+    - personal safety and orderly public spaces
+    - evidence-based policy and transit efficiency

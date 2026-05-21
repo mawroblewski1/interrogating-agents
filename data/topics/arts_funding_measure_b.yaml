@@ -1,0 +1,39 @@
+id: arts_funding_measure_b
+question: "Shall the city dedicate one percent of its annual general fund budget to
+  support local arts organizations, public murals, and community cultural programs?"
+source: "Composite of arts funding ballot measures including San Francisco Prop E
+  (2024) and similar municipal cultural policy initiatives; non-partisan framing"
+
+n_turns: 6
+n_quads: 5
+suspect_information: aligned_only
+
+supporters:
+  summary: "Invests in cultural identity, economic return through tourism, and equitable
+    access to arts for all residents"
+  key_arguments:
+    - Arts funding generates measurable economic return through tourism and creative industries
+    - Public art and cultural programs strengthen community identity and social cohesion
+    - Low-income residents gain access to cultural experiences they could not otherwise afford
+    - Cities with robust arts funding attract and retain skilled workers and businesses
+    - One percent is a modest, predictable commitment that allows organizations to plan long-term
+
+opponents:
+  summary: "Diverts funds from essential services, lacks accountability, and benefits
+    niche institutions over the broader public"
+  key_arguments:
+    - One percent of the general fund diverts money from police, fire, infrastructure, and schools
+    - Arts organizations primarily serve educated, higher-income demographics, not the general public
+    - Government should not pick cultural winners; the market can support art that people value
+    - Dedicated budget carve-outs reduce council flexibility to respond to emergencies
+    - Existing arts institutions already receive grants and private donations without a mandate
+
+suspect_values:
+  for:
+    - community identity and belonging
+    - equitable public access to culture
+    - economic vitality and creative industry
+  against:
+    - fiscal responsibility and service priorities
+    - limited government and market autonomy
+    - democratic accountability over spending
