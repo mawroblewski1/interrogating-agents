@@ -11,9 +11,16 @@ Channel 2 — retrieve_arguments:
 """
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
+
+# Prevent sentence-transformers from making network calls on every load.
+# The model is already cached from the initial index build; offline mode
+# ensures a dropped WiFi connection can never crash a running experiment.
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 import chromadb
 import yaml
@@ -30,6 +37,10 @@ _PHASE_MAP = {
     "late":   {"late", "any"},
 }
 
+# Module-level cache: load the embedding model and open the ChromaDB
+# collection exactly once per process instead of once per retrieve call.
+_collection_cache: chromadb.Collection | None = None
+
 
 @dataclass
 class TechniqueCard:
@@ -44,11 +55,14 @@ class TechniqueCard:
 
 
 def _get_collection() -> chromadb.Collection:
-    ef = embedding_functions.SentenceTransformerEmbeddingFunction(
-        model_name=EMBED_MODEL
-    )
-    client = chromadb.PersistentClient(path=str(CHROMA_PATH))
-    return client.get_collection(COLLECTION, embedding_function=ef)
+    global _collection_cache
+    if _collection_cache is None:
+        ef = embedding_functions.SentenceTransformerEmbeddingFunction(
+            model_name=EMBED_MODEL
+        )
+        client = chromadb.PersistentClient(path=str(CHROMA_PATH))
+        _collection_cache = client.get_collection(COLLECTION, embedding_function=ef)
+    return _collection_cache
 
 
 def _load_technique_meta(stem: str) -> dict:
