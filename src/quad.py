@@ -82,24 +82,28 @@ def run_quad(
     # Run all four dialogues before touching the judge.
     dialogues: list[DialogueResult] = [run_dialogue(cfg) for cfg in configs]
 
-    # Concatenate all suspect utterances for one batched judge call.
-    all_utterances: list[str] = []
-    boundaries: list[int] = [0]
-    for d in dialogues:
-        all_utterances.extend(d.utterances)
-        boundaries.append(len(all_utterances))
+    # Score in two direction-matched batches to keep each call under ~14 utterances.
+    # Batch A: legs 0 (control, -2) + 2 (treatment, -2)  → same starting direction
+    # Batch B: legs 1 (control, +2) + 3 (treatment, +2)  → same starting direction
+    # Within each batch the judge calibrates consistently across conditions, which is
+    # what matters for treatment_effect. Splitting by direction also avoids confusing
+    # the judge with utterances from opposite starting stances in the same prompt.
+    def _score_pair(idx_a: int, idx_b: int) -> tuple[list[int], list[int]]:
+        utts_a = dialogues[idx_a].utterances
+        utts_b = dialogues[idx_b].utterances
+        combined = score_batch(models["judge"], topic_card["question"],
+                               utts_a + utts_b, seed=seed)
+        na = len(utts_a)
+        return combined[:na], combined[na:]
 
-    all_scores = score_batch(
-        models["judge"],
-        topic_card["question"],
-        all_utterances,
-        seed=seed,
-    )
+    scores_0, scores_2 = _score_pair(0, 2)
+    scores_1, scores_3 = _score_pair(1, 3)
+    all_scores_by_leg = [scores_0, scores_1, scores_2, scores_3]
 
     # Distribute scores back to each leg and assemble TrialResults.
     trial_results: list[TrialResult] = []
     for i, (d, cfg) in enumerate(zip(dialogues, configs)):
-        scores = all_scores[boundaries[i]: boundaries[i + 1]]
+        scores = all_scores_by_leg[i]
         for j, record in enumerate(d.turns):
             record.stance_score = scores[j]
         trial_results.append(TrialResult(config=cfg, scores=scores, turns=d.turns))
