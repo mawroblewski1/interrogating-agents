@@ -1,0 +1,29 @@
+=================================================================
+EXPERIMENT SUMMARY
+=================================================================
+Quads: 68 legs total  (3 topics × 5 quads × 4 legs)
+
+── Per-topic metrics ──────────────────────────────────────────
+  Housing (Rezoning)     [control  ]  mag=2.00+/-1.28  dir_acc=50%  consistency=1.66
+  Housing (Rezoning)     [treatment]  mag=1.60+/-1.17  dir_acc=80%  consistency=1.09
+                          treatment_effect = -0.40
+
+  Arts (Funding)         [control  ]  mag=1.50+/-0.97  dir_acc=60%  consistency=1.30
+  Arts (Funding)         [treatment]  mag=1.80+/-1.48  dir_acc=60%  consistency=1.08
+                          treatment_effect = +0.30
+
+  Transit (Fare-free)    [control  ]  mag=1.20+/-1.03  dir_acc=10%  consistency=1.30
+  Transit (Fare-free)    [treatment]  mag=2.10+/-0.88  dir_acc=90%  consistency=1.27
+                          treatment_effect = +0.90
+
+── Pooled results ─────────────────────────────────────────────
+  Control   mag=1.66  dir_acc=42%
+  Treatment mag=1.83  dir_acc=77%
+  Pooled treatment effect: +0.18
+
+── Key finding ────────────────────────────────────────────────
+  Transit topic shows strongest treatment effect (+0.90 magnitude,
+  90% vs 10% directional accuracy). Housing magnitude confounded
+  by known judge bias on housing topic; directional accuracy
+  still favors treatment (80% vs 40%). Arts shows modest effect.
+=================================================================
