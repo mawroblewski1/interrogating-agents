@@ -1,8 +1,10 @@
 # interrogating-agents
 
-An LLM-vs-LLM debate harness that tests whether a RAG-guided "interrogator" can shift another LLM's stance on a non-partisan local-policy proposition, scored by a blinded judge LLM. Runs entirely on local Ollama — no API costs, unlimited eval trials.
+> **Can recommending real-world interrogation techniques help LLMs moderate extremist views?**
 
-ECS 172 group project, UC Davis.
+A controlled LLM-vs-LLM evaluation harness for the research question above. A "suspect" LLM holds a strong stance on a non-partisan policy topic; an "interrogator" LLM is asked to shift that stance using either a vanilla persuasion prompt (control) or a RAG pipeline over a corpus of real-world interrogation and de-escalation techniques (treatment). A blinded judge LLM scores the suspect's stance turn-by-turn on a [−2, 2] rubric. The whole experiment runs on local Ollama — no API costs, unlimited eval trials.
+
+ECS 172 group project, UC Davis. By **Bill Koumba**, **Sanjay Manivasagam**, **Marcin Wróblewski**, **Haoyu Yan**.
 
 ## Architecture
 
@@ -35,11 +37,21 @@ python -m src.trial --topic housing_prop_123 --direction -2 --condition control 
 
 ## What this is
 
-A reproducibility-first eval of one specific question: **does a retrieval-augmented interrogator move a stubborn LLM further than an unaugmented one?** A "suspect" LLM is given a position on a local-policy question (housing rezoning, arts funding, transit fares) and a set of supporting arguments. An "interrogator" LLM debates it for N turns. A third LLM, the judge, scores the suspect's stance at every turn on a 5-point scale (−2 strongly opposes … +2 strongly supports).
+Online content moderation typically reacts after harm: bans, takedowns, community notes. The premise of this project is that some users — particularly those drifting toward extremist positions through trolling or emotionally distressed engagement — are reachable *before* escalation, if the conversational counterpart applies techniques drawn from real-world interrogation and de-escalation practice (rapport building, motivational interviewing, surfacing contradictions, the PEACE model, Scharff technique, Socratic questioning, etc.).
 
-The whole stack runs on **local Ollama** (default model: `llama3.1:8b`, swappable in `config/models.yaml`). That means no API budget, no rate limits, and the entire experiment is reproducible from a `seed` field in `config/trial_defaults.yaml`.
+Testing that hypothesis directly is unethical and dangerous. Instead, this repo runs a **simulated proxy** in a controlled environment, never against real users:
 
-The judge runs over **all four legs of a quad at once** (`src/roles/judge.py:score_batch`). The comment in `config/models.yaml` flags Estornell et al. on shared-bias judges; swapping the judge to a different model family (e.g. `qwen2.5:7b`) is the recommended mitigation.
+- A **suspect** LLM is conditioned to hold a strong stance (±2 initial direction) on a non-partisan local-policy proposition — housing rezoning, arts funding, transit fares, Measure V village farms. The suspect is *not* extremist; the topic is a stand-in for any value-laden disagreement where reasoning matters more than facts. Real extremism is out of scope.
+- An **interrogator** LLM is given the opposite stance and either (a) a vanilla persuasion prompt (control) or (b) a two-stage RAG pipeline that selects and applies a technique card from `data/techniques/` (treatment, M4).
+- A **judge** LLM, blinded to condition and held constant across experiments, scores every suspect utterance against the proposition on a fixed rubric in `[−2, 2]`. We compute three trajectory metrics: **magnitude** (`|score[-1] - score[0]|`), **direction** (sign of the change), and **consistency** (variance across turns).
+
+Trials are organised into **quads** (control × ±2 initial direction, treatment × ±2 initial direction over the same topic and seed). All four legs' utterances are scored in one batched judge call so any per-session calibration bias affects every leg equally and cancels in the treatment-vs-control delta.
+
+The whole stack runs on **local Ollama** (default model: `llama3.1:8b`, swappable per role in `config/models.yaml`). No API budget, no rate limits, fully reproducible from the `seed` in `config/trial_defaults.yaml`. The comment in `config/models.yaml` flags Estornell et al. (2024) on shared-bias judges; running the judge on a different model family (e.g. `qwen2.5:7b`) is the recommended mitigation and trivial to set up.
+
+### Ethical note
+
+Per the project proposal, this work is only ever applied in a controlled, simulated environment. It does not interact with real individuals, does not collect personal data, and the interrogator agent focuses on explanation and reasoning — no coercion, deception, or manipulation. The corpus of interrogation techniques is drawn from public, educational sources.
 
 ## How it works
 
@@ -200,24 +212,34 @@ docs/PORTABILITY.md      # audit of what was Windows-only and what changed
 
 ECS 172, Spring 2026, UC Davis.
 
-- Marcin Wroblewski — upstream repo owner, role design, M1/M2 implementation
-- William — M1/M2 development branch
-- Sanjay Manivasagan — portability (cross-OS Ollama discovery, UTF-8 console fix, CI matrix), README
-
-Replace these with the real teammate list before submitting.
+- **Bill Koumba**
+- **Sanjay Manivasagam** — cross-OS portability layer (Ollama discovery, UTF-8 console fix, setup script, CI matrix, README)
+- **Marcin Wróblewski** — upstream repository owner
+- **Haoyu Yan**
 
 ## Citation
 
 ```bibtex
 @misc{interrogating-agents-2026,
-  title  = {Interrogating Agents: RAG-Guided Stance Shifting in LLM Debate},
-  author = {{ECS 172 Group Project, UC Davis}},
-  year   = {2026},
-  note   = {Course project. Source: \url{https://github.com/Sanjaayyy7/interrogating-agents}}
+  title   = {Can recommending real-world interrogation techniques help LLMs moderate extremist views?},
+  author  = {Koumba, Bill and Manivasagam, Sanjay and Wr{\'o}blewski, Marcin and Yan, Haoyu},
+  year    = {2026},
+  howpublished = {ECS 172 group project, UC Davis},
+  note    = {Source: \url{https://github.com/mawroblewski1/interrogating-agents}}
 }
 ```
 
-Upstream: <https://github.com/mawroblewski1/interrogating-agents>.
+## References
+
+Key references from the project proposal:
+
+- Costello, T. H., G. Pennycook, and D. G. Rand. 2024. *Durably reducing conspiracy beliefs through dialogues with AI.* Science. <https://doi.org/10.1126/science.adq1814>
+- Estornell, A., and Y. Liu. 2024. *Multi-LLM Debate: Framework, Principles, and Interventions.* NeurIPS. <https://doi.org/10.52202/079017-0911>
+- Kumar, D., Y. AbuHashem, and Z. Durumeric. 2023. *Watch Your Language: Large Language Models and Content Moderation.* arXiv:2309.14517.
+- Hong, Z., et al. 2024. *Curiosity-driven Red-teaming for Large Language Models.* ICLR. arXiv:2402.19464.
+- Izacard, G., et al. 2022. *Atlas: Few-shot Learning with Retrieval Augmented Language Models.* arXiv:2208.03299.
+- Sun, X., et al. 2023. *Explicit Time Embedding Based Cascade Attention Network for Information Popularity Prediction.* arXiv:2308.09976.
+- Tian, Y., et al. 2023. *DyGFormer: A Dynamic Graph Transformer for Temporal Representation Learning.* arXiv:2303.13047.
 
 ## License
 
