@@ -7,6 +7,7 @@ CLI usage:
 from __future__ import annotations
 
 import argparse
+import sys
 import yaml
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -146,6 +147,10 @@ def _print_trial(result: TrialResult) -> None:
 
 
 if __name__ == "__main__":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     cfg = _load_config()
     result = run_trial(cfg)
     _print_trial(result)
