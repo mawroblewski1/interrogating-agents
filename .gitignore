@@ -1,9 +1,3 @@
-# Raw experiment output (large, reproducible)
-results/*.jsonl
-results/*.csv
-# Keep figures and summary
-!results/figures/
-!results/summary.txt
 __pycache__/
 *.pyc
 .pytest_cache/
