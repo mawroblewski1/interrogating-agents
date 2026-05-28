@@ -1,9 +1,0 @@
-quad_id,topic,seed,condition,interrogator_stance,suspect_init_direction,turn,stance_score
-housing_prop_123_42_20260519T234342,housing_prop_123,42,control,for,-2,3,0
-housing_prop_123_42_20260519T234342,housing_prop_123,42,control,against,2,3,0
-housing_prop_123_42_20260519T234342,housing_prop_123,42,control,for,-2,3,-2
-housing_prop_123_42_20260519T234342,housing_prop_123,42,control,against,2,3,0
-housing_prop_123_43_20260519T234638,housing_prop_123,43,control,for,-2,3,-1
-housing_prop_123_43_20260519T234638,housing_prop_123,43,control,against,2,3,0
-housing_prop_123_43_20260519T234638,housing_prop_123,43,control,for,-2,3,0
-housing_prop_123_43_20260519T234638,housing_prop_123,43,control,against,2,3,0

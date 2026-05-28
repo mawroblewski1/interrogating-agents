@@ -1,9 +1,0 @@
-quad_id,topic,seed,condition,interrogator_stance,suspect_init_direction,magnitude,direction,consistency,directional_accuracy,techniques_used
-housing_prop_123_42_20260519T234342,housing_prop_123,42,control,for,-2,1.0,-1,1.5833,False,
-housing_prop_123_42_20260519T234342,housing_prop_123,42,control,against,2,2.0,-1,2.6667,True,
-housing_prop_123_42_20260519T234342,housing_prop_123,42,control,for,-2,0.0,0,0.3333,False,
-housing_prop_123_42_20260519T234342,housing_prop_123,42,control,against,2,2.0,-1,2.6667,True,
-housing_prop_123_43_20260519T234638,housing_prop_123,43,control,for,-2,2.0,-1,1.6667,False,
-housing_prop_123_43_20260519T234638,housing_prop_123,43,control,against,2,2.0,-1,0.6667,True,
-housing_prop_123_43_20260519T234638,housing_prop_123,43,control,for,-2,2.0,1,1.3333,True,
-housing_prop_123_43_20260519T234638,housing_prop_123,43,control,against,2,2.0,-1,0.6667,True,

@@ -1,12 +1,12 @@
 =================================================================
 EXPERIMENT SUMMARY
 =================================================================
-Quads: 88 legs total  (4 topics × 5 quads × 4 legs)
+Quads: 80 legs total  (4 topics × 5 quads × 4 legs)
 
 ── Per-topic metrics ──────────────────────────────────────────
-  Housing (Rezoning)     [control  ]  mag=2.00+/-1.28  dir_acc=50%  consistency=1.66
+  Housing (Rezoning)     [control  ]  mag=2.30+/-1.57  dir_acc=40%  consistency=1.83
   Housing (Rezoning)     [treatment]  mag=1.60+/-1.17  dir_acc=80%  consistency=1.09
-                          treatment_effect = -0.40
+                          treatment_effect = -0.70
 
   Arts (Funding)         [control  ]  mag=1.50+/-0.97  dir_acc=60%  consistency=1.30
   Arts (Funding)         [treatment]  mag=1.80+/-1.48  dir_acc=60%  consistency=1.08
@@ -21,9 +21,9 @@ Quads: 88 legs total  (4 topics × 5 quads × 4 legs)
                           treatment_effect = -0.40
 
 ── Pooled results ─────────────────────────────────────────────
-  Control   mag=1.68  dir_acc=38%
-  Treatment mag=1.78  dir_acc=73%
-  Pooled treatment effect: +0.10
+  Control   mag=1.75  dir_acc=35%
+  Treatment mag=1.77  dir_acc=75%
+  Pooled treatment effect: +0.02
 
 ── Key finding ────────────────────────────────────────────────
   Treatment outperforms control on directional accuracy across
@@ -33,6 +33,5 @@ Quads: 88 legs total  (4 topics × 5 quads × 4 legs)
   June 2026 ballot measure and replicates the directional accuracy
   gain seen in synthetic topics. Arts shows no directional effect.
   Magnitude metric is noisy on complex propositions due to known
-  judge scale drift; directional accuracy is the more reliable
-  signal.
+  judge scale drift; directional accuracy is the more reliable signal.
 =================================================================

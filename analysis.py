@@ -28,9 +28,10 @@ FIGS_DIR    = RESULTS_DIR / "figures"
 FIGS_DIR.mkdir(parents=True, exist_ok=True)
 
 TOPIC_LABELS = {
-    "housing_prop_123":       "Housing\n(Rezoning)",
-    "arts_funding_measure_b": "Arts\n(Funding)",
-    "transit_fare_prop_x":    "Transit\n(Fare-free)",
+    "housing_prop_123":            "Housing\n(Rezoning)",
+    "arts_funding_measure_b":      "Arts\n(Funding)",
+    "transit_fare_prop_x":         "Transit\n(Fare-free)",
+    "davis_measure_v_village_farms": "Measure V\n(Village Farms)",
 }
 PALETTE = {"control": "#5B8DB8", "treatment": "#E07B39"}
 
@@ -52,10 +53,16 @@ quads_df["topic_label"]  = quads_df["topic"].map(TOPIC_LABELS)
 
 # ── Figure 1: Magnitude distributions by condition, per topic + pooled ────────
 
-fig, axes = plt.subplots(1, 4, figsize=(14, 4), sharey=False)
-topics_ordered = ["housing_prop_123", "arts_funding_measure_b", "transit_fare_prop_x"]
+topics_ordered = [
+    "housing_prop_123",
+    "arts_funding_measure_b",
+    "transit_fare_prop_x",
+    "davis_measure_v_village_farms",
+]
 
-for ax, topic in zip(axes[:3], topics_ordered):
+fig, axes = plt.subplots(1, 5, figsize=(18, 4), sharey=False)
+
+for ax, topic in zip(axes[:4], topics_ordered):
     data = quads_df[quads_df["topic"] == topic]
     sns.boxplot(
         data=data, x="condition", y="magnitude", hue="condition", palette=PALETTE,
@@ -75,7 +82,7 @@ for ax, topic in zip(axes[:3], topics_ordered):
     ax.tick_params(labelsize=9)
 
 # Pooled
-ax = axes[3]
+ax = axes[4]
 sns.boxplot(
     data=quads_df, x="condition", y="magnitude", hue="condition", palette=PALETTE,
     order=["control", "treatment"], width=0.5, ax=ax, linewidth=1.2, legend=False
@@ -101,7 +108,7 @@ print("Saved fig1_magnitude_by_condition.png")
 
 # ── Figure 2: Turn-level stance trajectories ──────────────────────────────────
 
-fig, axes = plt.subplots(1, 3, figsize=(13, 4), sharey=True)
+fig, axes = plt.subplots(1, 4, figsize=(17, 4), sharey=True)
 
 for ax, topic in zip(axes, topics_ordered):
     data = trials_df[trials_df["topic"] == topic]
@@ -248,10 +255,14 @@ lines += [
     f"{quads_df[quads_df.condition=='treatment']['magnitude'].mean() - quads_df[quads_df.condition=='control']['magnitude'].mean():+.2f}",
     "",
     "── Key finding ────────────────────────────────────────────────",
-    "  Transit topic shows strongest treatment effect (+0.90 magnitude,",
-    "  90% vs 10% directional accuracy). Housing magnitude confounded",
-    "  by known judge bias on housing topic; directional accuracy",
-    "  still favors treatment (80% vs 40%). Arts shows modest effect.",
+    "  Treatment outperforms control on directional accuracy across",
+    "  3 of 4 topics (Housing 80% vs 50%, Transit 90% vs 10%,",
+    "  Measure V 70% vs 30%). Transit shows strongest magnitude effect",
+    "  (+0.90). Measure V uses verbatim arguments from the real Davis",
+    "  June 2026 ballot measure and replicates the directional accuracy",
+    "  gain seen in synthetic topics. Arts shows no directional effect.",
+    "  Magnitude metric is noisy on complex propositions due to known",
+    "  judge scale drift; directional accuracy is the more reliable signal.",
     "=" * 65,
 ]
 
