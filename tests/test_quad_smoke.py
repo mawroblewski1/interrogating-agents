@@ -4,6 +4,8 @@ import yaml
 from pathlib import Path
 from src.quad import run_quad
 
+pytestmark = pytest.mark.slow
+
 BASE = Path(__file__).parent.parent
 
 
