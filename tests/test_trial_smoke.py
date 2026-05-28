@@ -1,7 +1,10 @@
 """2-turn control trial end-to-end smoke test."""
+import pytest
 import yaml
 from pathlib import Path
 from src.trial import TrialConfig, run_trial
+
+pytestmark = pytest.mark.slow
 
 BASE = Path(__file__).parent.parent
 

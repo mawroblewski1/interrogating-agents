@@ -5,6 +5,7 @@ These tests do NOT call Ollama — they only test the vector index.
 import pytest
 from src.rag.retrieve import retrieve_techniques, retrieve_arguments
 
+pytestmark = pytest.mark.slow
 
 # ── Technique retrieval ────────────────────────────────────────────────────────
 

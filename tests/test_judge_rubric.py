@@ -11,6 +11,8 @@ treatment-vs-control comparisons since the bias is symmetric across all quad leg
 import pytest
 from src.roles.judge import score, score_batch
 
+pytestmark = pytest.mark.slow
+
 # Neutral topic used for calibration tests to avoid housing-policy model bias.
 TOPIC = "Shall the city build a new public library in the downtown area?"
 

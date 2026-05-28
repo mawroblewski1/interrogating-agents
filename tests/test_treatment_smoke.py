@@ -1,8 +1,11 @@
 """2-turn treatment trial smoke test — verifies the 2-stage RAG pipeline runs end-to-end."""
+import pytest
 import yaml
 from pathlib import Path
 from src.trial import TrialConfig, run_trial
 from src.roles.interrogator import SuspectModel, PersonaState
+
+pytestmark = pytest.mark.slow
 
 BASE = Path(__file__).parent.parent
 
