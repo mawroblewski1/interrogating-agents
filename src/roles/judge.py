@@ -57,7 +57,7 @@ def score_batch(
     )
     messages = [{"role": "user", "content": user_msg}]
 
-    for attempt in range(2):
+    for attempt in range(3):
         reply = generate(model, _SYSTEM, messages, seed=seed)
         scores = _parse(reply, len(utterances))
         if scores is not None:
@@ -74,10 +74,28 @@ def score_batch(
             },
         ]
 
-    raise RuntimeError(
-        f"Judge failed to return parseable scores after 2 attempts. "
-        f"Last reply: {reply!r}"
-    )
+    # Batch scoring failed — fall back to scoring each utterance individually.
+    # This costs more LLM calls but guarantees a result on complex propositions.
+    print(f"  [judge] batch of {len(utterances)} failed after 3 attempts; "
+          f"falling back to per-utterance scoring.")
+    return [_score_single(model, topic_question, u, seed) for u in utterances]
+
+
+def _score_single(model: str, topic_question: str, utterance: str, seed: int) -> int:
+    """Score one utterance with up to 3 attempts, returning 0 on total failure."""
+    msgs = [{"role": "user", "content":
+             f"Proposition: {topic_question}\n\nStatements to score:\n\n[1] {utterance}"}]
+    for _ in range(3):
+        reply = generate(model, _SYSTEM, msgs, seed=seed)
+        scores = _parse(reply, 1)
+        if scores is not None:
+            return scores[0]
+        msgs = msgs + [
+            {"role": "assistant", "content": reply},
+            {"role": "user", "content":
+             "Reply with ONLY a JSON array of 1 integer in [-2, 2], e.g. [-1]."},
+        ]
+    return 0  # neutral fallback if single-utterance scoring also fails
 
 
 def score(model: str, topic_question: str, utterance: str, seed: int = 42) -> int:
@@ -86,13 +104,19 @@ def score(model: str, topic_question: str, utterance: str, seed: int = 42) -> in
 
 
 def _parse(text: str, expected_len: int) -> list[int] | None:
-    """Extract a JSON int array from text. Returns None on failure."""
+    """Extract a JSON int array from text. Returns None on failure.
+
+    Accepts out-of-range numerics and clamps them to [-2, 2] rather than
+    rejecting the whole array — the model sometimes returns values like 8
+    on complex propositions but the ordinal intent is still clear.
+    """
     cleaned = re.sub(r"\+(\d)", r"\1", text.strip())  # strip JSON-illegal '+' prefix
 
     try:
         result = json.loads(cleaned)
-        if _valid(result, expected_len):
-            return [int(x) for x in result]
+        extracted = _extract(result, expected_len)
+        if extracted is not None:
+            return extracted
     except (json.JSONDecodeError, ValueError, TypeError):
         pass
 
@@ -101,17 +125,19 @@ def _parse(text: str, expected_len: int) -> list[int] | None:
         try:
             candidate = re.sub(r"\+(\d)", r"\1", match.group())
             result = json.loads(candidate)
-            if _valid(result, expected_len):
-                return [int(x) for x in result]
+            extracted = _extract(result, expected_len)
+            if extracted is not None:
+                return extracted
         except (json.JSONDecodeError, ValueError, TypeError):
             pass
 
     return None
 
 
-def _valid(result: object, expected_len: int) -> bool:
-    return (
-        isinstance(result, list)
-        and len(result) == expected_len
-        and all(isinstance(x, (int, float)) and -2 <= x <= 2 for x in result)
-    )
+def _extract(result: object, expected_len: int) -> list[int] | None:
+    """Return a clamped int list if result is a numeric array of the right length."""
+    if not (isinstance(result, list) and len(result) == expected_len):
+        return None
+    if not all(isinstance(x, (int, float)) for x in result):
+        return None
+    return [max(-2, min(2, int(x))) for x in result]

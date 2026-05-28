@@ -1,0 +1,144 @@
+id: davis_measure_v_village_farms
+question: "Shall Resolution No. 26-006 be adopted to amend the Davis General Plan to
+  approve a residential development to include parks and open space areas, by changing
+  the land use designations for the Village Farms Davis properties from Agriculture to
+  Urban Agriculture Transition Area, Residential Low, Medium and High Density, and by
+  establishing the Baseline Project Features?"
+source: "Yolo County ACE Department — Measure V, City of Davis, June 2, 2026 Special
+  Municipal Election. https://elections.yolocounty.gov/417/Measure-V---City-of-Davis"
+
+n_turns: 6
+n_quads: 5
+suspect_information: aligned_only
+
+supporters:
+  summary: "Village Farms Davis provides much-needed housing at all income levels,
+    strengthens schools and city finances, and delivers extensive open space, parks,
+    bike infrastructure, and environmental sustainability on a site prioritized for
+    decades."
+  key_arguments:
+    - "It's been over a generation without family housing approved by voters in Davis.
+      The consequences are real: young families, teachers and local workers can't afford
+      to live here, declining enrollment threatens our schools, small businesses struggle,
+      and tens of thousands commute here daily, adding traffic and emissions."
+    - "Measure V approves Village Farms Davis – diverse homes for every income level on
+      a site prioritized for decades."
+    - "Measure V guarantees a dedication of 16 acres of land and $6 million toward
+      affordable housing, the largest contribution in Davis history. Twenty percent of
+      homes are permanently affordable for income-limited households, exceeding city
+      requirements."
+    - "Seventy percent of market rate homes are attached or on small lots, providing much
+      needed 'missing-middle' housing. DJUSD estimates Village Farms Davis will attract
+      young families with 1,100+ new students to help enrollment."
+    - "Measure V strengthens our city budget and funds critical traffic improvements while
+      generating millions in ongoing revenue for essential city services."
+    - "Over half of Village Farms Davis is open space, habitat, agriculture, greenbelts,
+      parks and trails. This includes a central park, needed sports fields, and a
+      permanently conserved 47-acre natural habitat with a permanently funded endowment."
+    - "Surrounded by existing neighborhoods in North Davis, this infill site sits within
+      walking and biking distance of schools and services. Village Farms Davis completes
+      the Davis Bike Loop (Northstar to Wildhorse) with grade-separated crossings."
+    - "Village Farms Davis is a 100% all-electric, solar-powered sustainable community
+      developed by local families with deep Davis roots – the same builders and planners
+      who pioneered our greenbelt design, urban habitat, and sustainable neighborhoods."
+    - "After years of thoughtful design and comprehensive study, Village Farms Davis
+      provides a measured plan to strengthen our schools, budget, and community. It can
+      help us meet state housing mandates and keep local control."
+    - "Village Farms Davis is engineered to California's most rigorous 200-year flood
+      protection standards, more flood-resilient than almost anywhere in Davis.
+      FEMA-certified; no flood insurance required."
+    - "16 acres plus $6,000,000 toward construction is by a wide margin the most generous
+      affordable housing contribution in Davis history — 360 units serving very low to
+      moderate income households far exceeds requirements."
+    - "Over 70% of market-rate homes will be townhomes, half-plexes, and smaller homes,
+      making homeownership possible for younger families with modest incomes."
+    - "All organic contaminants identified decades ago are now completely gone. The Central
+      Valley Regional Water Quality Control Board determined there is 'no risk' to future
+      residents."
+    - "Village Farms Davis is required to improve transportation and bicycle/pedestrian
+      safety. Measure V provides millions for improvements citywide — including traffic
+      signal coordination."
+    - "Housing for tens of thousands of daily commuters to UCD means fewer cars on roads."
+    - "Two bike/pedestrian crossings connecting Northstar Park to Wildhorse cannot be
+      removed without another public vote."
+    - "Village Farms Davis is smart community planning — at the right time, in the best
+      location, by trusted locals."
+
+opponents:
+  summary: "Village Farms is too large, with serious unresolved impacts including
+    massive traffic, predominantly unaffordable market-rate housing, environmental
+    toxics and flooding risks, enormous infrastructure costs, and a developer track
+    record that warrants skepticism."
+  key_arguments:
+    - "Village Farms, with a 15-year buildout, proposes 1,800 housing units on 498 acres,
+      the largest residential project ever proposed in Davis with many serious impacts."
+    - "Massive traffic, adding over 15,000 car trips DAILY near Covell Boulevard and
+      Pole Line Road."
+    - "Unaffordable housing, where 80% of the project is market rate housing costing
+      $740,000 - $1,300,000 which is not affordable to most local workers and families
+      with young kids. How would this help schools?"
+    - "Developer isn't responsible for building the affordable housing, except potentially
+      100 affordable units (Phase 3). Is this a good affordable housing plan?"
+    - "Toxics including carcinogenic PFAS 'forever chemicals' leaking to Village Farms
+      from the adjacent unlined Old Davis Landfill and Sewage Treatment Plant."
+    - "200-acre floodplain with serious flooding potential and risk of PFAS groundwater
+      toxics contaminating Channel A which flows through Wildhorse then Willow Slough
+      Bypass, Yolo Basin habitat wetlands and connecting waterways, including Sacramento
+      River."
+    - "Failed floodplain engineering in the 1990's resulted in the City buying flooded
+      Howat Ranch to settle the lawsuit. Village Farms has no verified floodplain control
+      plan."
+    - "Old Davis Landfill's 30-year burn pits, testing wasn't done for carcinogenic
+      dioxins."
+    - "Soil toxics, high neurotoxin levels, toxaphene and lead, on park where kids would
+      recreate."
+    - "Safe access concerns, including 2 proposed bike/pedestrian grade-separated crossings
+      which have had feasibility issues. After 7 years, this developer hasn't delivered
+      his Nishi housing project or its overcrossing."
+    - "Enormous infrastructure costs."
+    - "ONE MILLION cubic yards (100,000 truckloads) of soil to move, trying to fill the
+      floodplain."
+    - "Unprotected vernal pools with no conservation easement in place so far."
+    - "Village Farms is too big, too many impacts, including massive traffic and costs,
+      predominantly unaffordable housing and potential liability to Davis long-term."
+    - "There are better alternatives, like the 'reduced footprint' alternative recommended,
+      below Channel A to avoid risks of flooding and toxics impacts."
+    - "Village Farms cheapest market rate house would be $740,000, up to $1,300,000 which
+      most local workers and families with young children CANNOT AFFORD. So, how would
+      this help schools?"
+    - "It would bring over 15,000 more car trips DAILY near Covell Blvd. and Pole Line
+      Road causing gridlock and Level of Service 'F.'"
+    - "The developer is not responsible for building the affordable housing, except
+      potentially 100 units in the last phase of the project. Does this seem like a good
+      plan?"
+    - "Track record matters! This developer HAS NOT built his Nishi housing project after
+      7 years."
+    - "Village Farms is county land, NOT INFILL (City of Davis General Plan.)"
+    - "Village Farms has TOXICS including carcinogenic PFAS 'forever chemicals' leaking
+      from adjacent unlined Old Davis Landfill and Sewage Treatment Plant, potentially
+      contaminating Channel A, habitat and waterways to Sacramento River. Who wants to
+      risk toxics exposure to their family or the environment?"
+    - "Why are Davis residents asked to vote on Village Farms without a verified flood
+      control plan, potentially exposing Davis to FLOODING RISKS due to the 200-acre
+      floodplain and rerouting Channel A?"
+    - "Village Farms was fast-tracked, prioritizing this developer's desire for the June
+      ballot, a project with serious impacts, unresolved problems, infrastructure costs,
+      and potential liability to Davis long-term."
+    - "Davis has a certified Housing Element until 2030. There is no rush to approve
+      Village Farms now. There are better alternatives like the 'reduced footprint'
+      alternative below Channel A, with significantly less impacts. Davis CANNOT AFFORD
+      the liability of Village Farms flooding and toxics exposure risks."
+
+suspect_values:
+  for:
+    - housing affordability and missing-middle homeownership
+    - school enrollment and support for DJUSD
+    - urban sustainability and all-electric development
+    - open space, parks, and active transportation
+    - meeting state housing mandates while retaining local control
+  against:
+    - protection from environmental toxics and flooding liability
+    - developer accountability and track record
+    - genuine affordability for local workers and families
+    - fiscal responsibility and infrastructure capacity
+    - preservation of agricultural land and local democratic process
