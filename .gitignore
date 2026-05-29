@@ -1,5 +1,7 @@
 Document/paper.tex
 Document/paper.docx
+Document/paper_backup.docx
+Document/*.pptx
 __pycache__/
 *.pyc
 .pytest_cache/
