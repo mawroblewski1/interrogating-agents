@@ -23,9 +23,18 @@ import pandas as pd
 import seaborn as sns
 
 BASE        = Path(__file__).parent
-RESULTS_DIR = BASE / "results"
+RESULTS_DIR = Path(__file__).parent.parent / "results"
 FIGS_DIR    = RESULTS_DIR / "figures"
 FIGS_DIR.mkdir(parents=True, exist_ok=True)
+
+"""
+[fig2 debug] trials_df['turn'] dtype=int64, unique values=[np.int64(6)]
+[fig2 debug] topic=housing_prop_123 cond=control init=2 turn0 rows=0 mean=nan
+[fig2 debug] topic=housing_prop_123 cond=treatment init=2 turn0 rows=0 mean=nan
+[fig2 debug] topic=housing_prop_123 cond=control init=-2 turn0 rows=0 mean=nan
+[fig2 debug] topic=housing_prop_123 cond=treatment init=-2 turn0 rows=0 mean=nan
+[fig2 debug] topic=arts_funding_measure_b cond=control init=2 turn0 rows=0 mean=na
+"""
 
 TOPIC_LABELS = {
     "housing_prop_123":            "Housing\n(Rezoning)",
