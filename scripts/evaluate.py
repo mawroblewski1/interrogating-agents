@@ -120,6 +120,9 @@ COND_X          = {c: i for i, c in enumerate(COND_ORDER)}
 
 fig, axes = plt.subplots(1, 4, figsize=(16, 4.5), sharey=True)
 
+print(f"[fig2 debug] trials_df['turn'] dtype={trials_df['turn'].dtype}, "
+      f"unique values={sorted(trials_df['turn'].unique())}")
+
 for ax, topic in zip(axes, topics_ordered):
     data = trials_df[trials_df["topic"] == topic]
 
@@ -132,7 +135,7 @@ for ax, topic in zip(axes, topics_ordered):
             sub = data[
                 (data["condition"] == cond) &
                 (data["suspect_init_direction"] == init_stance) &
-                (data["turn"] >= 1)
+                (data["turn"].astype(int) >= 1)
             ]
             if sub.empty:
                 continue
@@ -142,7 +145,7 @@ for ax, topic in zip(axes, topics_ordered):
         if xs_main:
             ax.errorbar(xs_main, means_main, yerr=sems_main,
                         color=color, linewidth=2, marker="o", ms=6, capsize=4,
-                        label=STANCE_LABELS[init_stance])
+                        zorder=4, label=STANCE_LABELS[init_stance])
 
         # ── Baseline lines: turn 0 only ────────────────────────────────────
         xs_t0, means_t0, sems_t0 = [], [], []
@@ -150,17 +153,22 @@ for ax, topic in zip(axes, topics_ordered):
             sub0 = data[
                 (data["condition"] == cond) &
                 (data["suspect_init_direction"] == init_stance) &
-                (data["turn"] == 0)
+                (data["turn"].astype(int) == 0)
             ]
+            mean_val = sub0["stance_score"].mean() if not sub0.empty else float("nan")
+            print(f"[fig2 debug] topic={topic} cond={cond} init={init_stance} "
+                  f"turn0 rows={len(sub0)} mean={mean_val:.2f}")
             if sub0.empty:
                 continue
             xs_t0.append(COND_X[cond])
             means_t0.append(sub0["stance_score"].mean())
             sems_t0.append(sub0["stance_score"].sem())
         if xs_t0:
-            ax.errorbar(xs_t0, means_t0, yerr=sems_t0,
-                        color=base_color, linewidth=1.5, marker="o", ms=5,
-                        capsize=4, linestyle="-",
+            offset = 0.12
+            xs_t0_offset = [x + offset for x in xs_t0]
+            ax.errorbar(xs_t0_offset, means_t0, yerr=sems_t0,
+                        color=base_color, linewidth=2.0, marker="s", ms=6,
+                        capsize=4, linestyle="--", zorder=3,
                         label=f"{STANCE_LABELS[init_stance]} (turn 0)")
 
     ax.axhline(0, color="gray", linestyle="--", linewidth=0.8, alpha=0.5)
