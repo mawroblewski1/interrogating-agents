@@ -488,7 +488,7 @@ seeds recur across the four topics. Given the seed, runs are deterministic.
 
 \subsection{Per-Topic Results}
 
-Table~\ref{tab:results} reports per-topic metrics. Figure~\ref{fig:fig3}
+Table~\ref{tab:results} reports per-topic metrics. ~\ref{fig:fig3}
 visualizes directional accuracy by condition and topic.
 
 \begin{table}[h]
@@ -558,7 +558,7 @@ did not close the gap is examined in the Discussion.
 
 \subsection{Magnitude and Consistency}
 
-Magnitude effects are mixed (Figure~\ref{fig:fig1}): Transit shows a strong
+Magnitude effects are mixed (~\ref{fig:fig1}): Transit shows a strong
 positive effect (+0.90), while Housing ($-0.70$) and Measure V ($-0.40$) show
 negative effects. We
 caution against over-interpreting magnitude results: the Judge LLM
@@ -575,34 +575,37 @@ turns, consistent with genuine directional influence. The control
 interrogator, lacking technique guidance, appears to provoke resistance on
 some turns and concession on others, producing oscillation; the
 RAG-guided interrogator produces more monotonic trajectories
-(Figure~\ref{fig:fig2}).
+(~\ref{fig:fig2}).
 
-\subsection{Figures}
+\subsection{s}
 
-\begin{figure}[h]
+\begin{}[h]
   \centering
-  \includegraphics[width=\linewidth]{../results/figures/fig3_directional_accuracy.png}
+  \includegraphics[width=\linewidth]{fig3_directional_accuracy.png}
   \caption{Directional accuracy (\%) by topic and condition. The dashed line at
     50\% marks direction-agnostic drift. Treatment exceeds control on 3 of 4 topics.}
   \label{fig:fig3}
-\end{figure}
+\end{}
 
-\begin{figure}[h]
+\begin{}[h]
   \centering
-  \includegraphics[width=\linewidth]{../results/figures/fig1_magnitude_by_condition.png}
+  \includegraphics[width=\linewidth]{fig1_magnitude_by_condition.png}
   \caption{Stance-change magnitude distributions by topic and condition.
     Pooled panel (rightmost) shows overlapping distributions with marginally
     higher treatment mean. Magnitude is a secondary metric due to judge scale
     drift on complex propositions.}
   \label{fig:fig1}
-\end{figure}
+\end{}
 
-\begin{figure}[h]
+\begin{}[h]
   \centering
-  \includegraphics[width=\linewidth]{../results/figures/fig2_trajectories.png}
-  \caption{Mean stance trajectory per turn ($\pm$1 SEM) for the three synthetic
-    topics. Treatment legs (orange) tend to converge toward the Interrogator's
-    target while control legs (blue) drift or plateau.}
+  \includegraphics[width=\linewidth]{fig2_trajectories.png}
+  \caption{Mean stance per topic and condition ($\pm$1 SEM, standard error of the
+    mean). Points show mean stance across all turns per condition, with error bars
+    indicating variability across legs. Treatment (orange) trends toward the
+    Interrogator target, while control (blue) drifts or plateaus. Aggregation across
+    opposing initial positions (+2/−2) can attenuate directionality; see Figure 1
+    for directional accuracy.}
   \label{fig:fig2}
 \end{figure}
 
