@@ -106,37 +106,62 @@ plt.close()
 print("Saved fig1_magnitude_by_condition.png")
 
 
-# ── Figure 2: Stance trajectories by condition and initial stance ─────────────
+# ── Figure 2: Stance by condition and initial stance ─────────────────────────
 # x-axis: condition (control / treatment)
-# two lines per panel: initial_stance +2 (solid) and -2 (dashed)
-# color encodes initial stance; points are mean stance across all turns
+# Main lines (solid, full color): mean stance across turns 1–6 per group
+# Baseline lines (solid, light color): mean stance at turn 0 only (pre-interrogation)
+# Two initial stances: +2 (blue tones) and -2 (red tones)
 
-STANCE_COLORS  = {2: "#2C7BB6", -2: "#D7191C"}
-STANCE_LABELS  = {2: "initial stance +2", -2: "initial stance −2"}
-COND_ORDER     = ["control", "treatment"]
-COND_X         = {c: i for i, c in enumerate(COND_ORDER)}
+STANCE_COLORS   = {2: "#2C7BB6", -2: "#D7191C"}
+STANCE_BASELINE = {2: "#A8C8E8", -2: "#F4A58A"}   # light versions for turn-0
+STANCE_LABELS   = {2: "initial stance +2", -2: "initial stance −2"}
+COND_ORDER      = ["control", "treatment"]
+COND_X          = {c: i for i, c in enumerate(COND_ORDER)}
 
 fig, axes = plt.subplots(1, 4, figsize=(16, 4.5), sharey=True)
 
 for ax, topic in zip(axes, topics_ordered):
     data = trials_df[trials_df["topic"] == topic]
+
     for init_stance, color in STANCE_COLORS.items():
-        xs, means, sems = [], [], []
+        base_color = STANCE_BASELINE[init_stance]
+
+        # ── Main lines: turns 1–6 ──────────────────────────────────────────
+        xs_main, means_main, sems_main = [], [], []
         for cond in COND_ORDER:
             sub = data[
                 (data["condition"] == cond) &
-                (data["suspect_init_direction"] == init_stance)
+                (data["suspect_init_direction"] == init_stance) &
+                (data["turn"] >= 1)
             ]
             if sub.empty:
                 continue
-            xs.append(COND_X[cond])
-            means.append(sub["stance_score"].mean())
-            sems.append(sub["stance_score"].sem())
-        if not xs:
-            continue
-        ax.errorbar(xs, means, yerr=sems, color=color,
-                    linewidth=2, marker="o", ms=6, capsize=4,
-                    label=STANCE_LABELS[init_stance])
+            xs_main.append(COND_X[cond])
+            means_main.append(sub["stance_score"].mean())
+            sems_main.append(sub["stance_score"].sem())
+        if xs_main:
+            ax.errorbar(xs_main, means_main, yerr=sems_main,
+                        color=color, linewidth=2, marker="o", ms=6, capsize=4,
+                        label=STANCE_LABELS[init_stance])
+
+        # ── Baseline lines: turn 0 only ────────────────────────────────────
+        xs_t0, means_t0, sems_t0 = [], [], []
+        for cond in COND_ORDER:
+            sub0 = data[
+                (data["condition"] == cond) &
+                (data["suspect_init_direction"] == init_stance) &
+                (data["turn"] == 0)
+            ]
+            if sub0.empty:
+                continue
+            xs_t0.append(COND_X[cond])
+            means_t0.append(sub0["stance_score"].mean())
+            sems_t0.append(sub0["stance_score"].sem())
+        if xs_t0:
+            ax.errorbar(xs_t0, means_t0, yerr=sems_t0,
+                        color=base_color, linewidth=1.5, marker="o", ms=5,
+                        capsize=4, linestyle="-",
+                        label=f"{STANCE_LABELS[init_stance]} (turn 0)")
 
     ax.axhline(0, color="gray", linestyle="--", linewidth=0.8, alpha=0.5)
     ax.set_title(TOPIC_LABELS[topic], fontsize=11)
@@ -148,11 +173,12 @@ for ax, topic in zip(axes, topics_ordered):
     ax.tick_params(labelsize=9)
 
 handles, labels = axes[0].get_legend_handles_labels()
-fig.legend(handles, labels, loc="lower center", ncol=2, fontsize=9,
-           frameon=True, bbox_to_anchor=(0.5, -0.08))
+fig.legend(handles, labels, loc="lower center", ncol=4, fontsize=9,
+           frameon=True, bbox_to_anchor=(0.5, -0.10))
 
 fig.suptitle(
-    "Mean Stance by Condition and Initial Stance  (±1 SEM across all turns and legs)",
+    "Mean Stance by Condition and Initial Stance  (±1 SEM)\n"
+    "Solid colors = turns 1–6  ·  Light colors = turn 0 baseline",
     fontsize=11, fontweight="bold"
 )
 plt.tight_layout()
