@@ -23,18 +23,9 @@ import pandas as pd
 import seaborn as sns
 
 BASE        = Path(__file__).parent
-RESULTS_DIR = Path(__file__).parent.parent / "results"
+RESULTS_DIR = BASE / "results"
 FIGS_DIR    = RESULTS_DIR / "figures"
 FIGS_DIR.mkdir(parents=True, exist_ok=True)
-
-"""
-[fig2 debug] trials_df['turn'] dtype=int64, unique values=[np.int64(6)]
-[fig2 debug] topic=housing_prop_123 cond=control init=2 turn0 rows=0 mean=nan
-[fig2 debug] topic=housing_prop_123 cond=treatment init=2 turn0 rows=0 mean=nan
-[fig2 debug] topic=housing_prop_123 cond=control init=-2 turn0 rows=0 mean=nan
-[fig2 debug] topic=housing_prop_123 cond=treatment init=-2 turn0 rows=0 mean=nan
-[fig2 debug] topic=arts_funding_measure_b cond=control init=2 turn0 rows=0 mean=na
-"""
 
 TOPIC_LABELS = {
     "housing_prop_123":            "Housing\n(Rezoning)",
@@ -115,87 +106,53 @@ plt.close()
 print("Saved fig1_magnitude_by_condition.png")
 
 
-# ── Figure 2: Stance by condition and initial stance ─────────────────────────
+# ── Figure 2: Final stance (turn 6) by condition and initial stance ───────────
 # x-axis: condition (control / treatment)
-# Main lines (solid, full color): mean stance across turns 1–6 per group
-# Baseline lines (solid, light color): mean stance at turn 0 only (pre-interrogation)
-# Two initial stances: +2 (blue tones) and -2 (red tones)
+# two lines per panel: initial_stance +2 (blue) and -2 (red)
+# only turn 6 is available in current results; per-turn logging is a planned extension
 
-STANCE_COLORS   = {2: "#2C7BB6", -2: "#D7191C"}
-STANCE_BASELINE = {2: "#A8C8E8", -2: "#F4A58A"}   # light versions for turn-0
-STANCE_LABELS   = {2: "initial stance +2", -2: "initial stance −2"}
-COND_ORDER      = ["control", "treatment"]
-COND_X          = {c: i for i, c in enumerate(COND_ORDER)}
+STANCE_COLORS  = {2: "#2C7BB6", -2: "#D7191C"}
+STANCE_LABELS  = {2: "initial stance +2", -2: "initial stance −2"}
+COND_ORDER     = ["control", "treatment"]
+COND_X         = {c: i for i, c in enumerate(COND_ORDER)}
 
 fig, axes = plt.subplots(1, 4, figsize=(16, 4.5), sharey=True)
-
-print(f"[fig2 debug] trials_df['turn'] dtype={trials_df['turn'].dtype}, "
-      f"unique values={sorted(trials_df['turn'].unique())}")
 
 for ax, topic in zip(axes, topics_ordered):
     data = trials_df[trials_df["topic"] == topic]
 
     for init_stance, color in STANCE_COLORS.items():
-        base_color = STANCE_BASELINE[init_stance]
-
-        # ── Main lines: turns 1–6 ──────────────────────────────────────────
-        xs_main, means_main, sems_main = [], [], []
+        xs, means, sems = [], [], []
         for cond in COND_ORDER:
             sub = data[
                 (data["condition"] == cond) &
-                (data["suspect_init_direction"] == init_stance) &
-                (data["turn"].astype(int) >= 1)
+                (data["suspect_init_direction"] == init_stance)
             ]
             if sub.empty:
                 continue
-            xs_main.append(COND_X[cond])
-            means_main.append(sub["stance_score"].mean())
-            sems_main.append(sub["stance_score"].sem())
-        if xs_main:
-            ax.errorbar(xs_main, means_main, yerr=sems_main,
-                        color=color, linewidth=2, marker="o", ms=6, capsize=4,
-                        zorder=4, label=STANCE_LABELS[init_stance])
-
-        # ── Baseline lines: turn 0 only ────────────────────────────────────
-        xs_t0, means_t0, sems_t0 = [], [], []
-        for cond in COND_ORDER:
-            sub0 = data[
-                (data["condition"] == cond) &
-                (data["suspect_init_direction"] == init_stance) &
-                (data["turn"].astype(int) == 0)
-            ]
-            mean_val = sub0["stance_score"].mean() if not sub0.empty else float("nan")
-            print(f"[fig2 debug] topic={topic} cond={cond} init={init_stance} "
-                  f"turn0 rows={len(sub0)} mean={mean_val:.2f}")
-            if sub0.empty:
-                continue
-            xs_t0.append(COND_X[cond])
-            means_t0.append(sub0["stance_score"].mean())
-            sems_t0.append(sub0["stance_score"].sem())
-        if xs_t0:
-            offset = 0.12
-            xs_t0_offset = [x + offset for x in xs_t0]
-            ax.errorbar(xs_t0_offset, means_t0, yerr=sems_t0,
-                        color=base_color, linewidth=2.0, marker="s", ms=6,
-                        capsize=4, linestyle="--", zorder=3,
-                        label=f"{STANCE_LABELS[init_stance]} (turn 0)")
+            xs.append(COND_X[cond])
+            means.append(sub["stance_score"].mean())
+            sems.append(sub["stance_score"].sem())
+        if xs:
+            ax.errorbar(xs, means, yerr=sems, color=color,
+                        linewidth=2, marker="o", ms=6, capsize=4, zorder=4,
+                        label=STANCE_LABELS[init_stance])
 
     ax.axhline(0, color="gray", linestyle="--", linewidth=0.8, alpha=0.5)
     ax.set_title(TOPIC_LABELS[topic], fontsize=11)
     ax.set_xticks([0, 1])
     ax.set_xticklabels(COND_ORDER, fontsize=10)
     ax.set_xlabel("Condition", fontsize=10)
-    ax.set_ylabel("Mean stance score (±1 SEM)" if ax == axes[0] else "")
+    ax.set_ylabel("Mean final stance score (±1 SEM)" if ax == axes[0] else "")
     ax.set_ylim(-2.5, 2.5)
     ax.tick_params(labelsize=9)
 
 handles, labels = axes[0].get_legend_handles_labels()
-fig.legend(handles, labels, loc="lower center", ncol=4, fontsize=9,
-           frameon=True, bbox_to_anchor=(0.5, -0.10))
+fig.legend(handles, labels, loc="lower center", ncol=2, fontsize=9,
+           frameon=True, bbox_to_anchor=(0.5, -0.08))
 
 fig.suptitle(
-    "Mean Stance by Condition and Initial Stance  (±1 SEM)\n"
-    "Solid colors = turns 1–6  ·  Light colors = turn 0 baseline",
+    "Mean Final Stance (Turn 6) by Condition and Initial Stance  (±1 SEM)",
     fontsize=11, fontweight="bold"
 )
 plt.tight_layout()
