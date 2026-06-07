@@ -106,52 +106,53 @@ plt.close()
 print("Saved fig1_magnitude_by_condition.png")
 
 
-# ── Figure 2: Turn-level stance trajectories ──────────────────────────────────
-# 4 lines per panel: condition (color) × initial_stance (linestyle)
-# color: orange=treatment, blue=control
-# linestyle: solid=initial_stance +2, dashed=initial_stance −2
+# ── Figure 2: Stance trajectories by condition and initial stance ─────────────
+# x-axis: condition (control / treatment)
+# two lines per panel: initial_stance +2 (solid) and -2 (dashed)
+# color encodes initial stance; points are mean stance across all turns
 
-LINESTYLES = {2: "-", -2: "--"}
-STANCE_LABELS = {2: "+2", -2: "−2"}
+STANCE_COLORS  = {2: "#2C7BB6", -2: "#D7191C"}
+STANCE_LABELS  = {2: "initial stance +2", -2: "initial stance −2"}
+COND_ORDER     = ["control", "treatment"]
+COND_X         = {c: i for i, c in enumerate(COND_ORDER)}
 
-fig, axes = plt.subplots(1, 4, figsize=(18, 4.5), sharey=True)
+fig, axes = plt.subplots(1, 4, figsize=(16, 4.5), sharey=True)
 
 for ax, topic in zip(axes, topics_ordered):
     data = trials_df[trials_df["topic"] == topic]
-    for condition, color in PALETTE.items():
-        for init_stance, ls in LINESTYLES.items():
+    for init_stance, color in STANCE_COLORS.items():
+        xs, means, sems = [], [], []
+        for cond in COND_ORDER:
             sub = data[
-                (data["condition"] == condition) &
+                (data["condition"] == cond) &
                 (data["suspect_init_direction"] == init_stance)
             ]
             if sub.empty:
                 continue
-            mean_by_turn = sub.groupby("turn")["stance_score"].mean()
-            sem_by_turn  = sub.groupby("turn")["stance_score"].sem()
-            turns = mean_by_turn.index
-            label = f"{condition}, s₀={STANCE_LABELS[init_stance]}"
-            ax.plot(turns, mean_by_turn, color=color, linestyle=ls,
-                    linewidth=2, marker="o", ms=4, label=label)
-            ax.fill_between(turns,
-                            mean_by_turn - sem_by_turn,
-                            mean_by_turn + sem_by_turn,
-                            color=color, alpha=0.12)
+            xs.append(COND_X[cond])
+            means.append(sub["stance_score"].mean())
+            sems.append(sub["stance_score"].sem())
+        if not xs:
+            continue
+        ax.errorbar(xs, means, yerr=sems, color=color,
+                    linewidth=2, marker="o", ms=6, capsize=4,
+                    label=STANCE_LABELS[init_stance])
+
     ax.axhline(0, color="gray", linestyle="--", linewidth=0.8, alpha=0.5)
     ax.set_title(TOPIC_LABELS[topic], fontsize=11)
-    ax.set_xlabel("Turn", fontsize=10)
-    ax.set_ylabel("Mean stance score" if ax == axes[0] else "")
+    ax.set_xticks([0, 1])
+    ax.set_xticklabels(COND_ORDER, fontsize=10)
+    ax.set_xlabel("Condition", fontsize=10)
+    ax.set_ylabel("Mean stance score (±1 SEM)" if ax == axes[0] else "")
     ax.set_ylim(-2.5, 2.5)
-    ax.set_xticks(sorted(data["turn"].unique()))
     ax.tick_params(labelsize=9)
 
-# Single shared legend below all panels
 handles, labels = axes[0].get_legend_handles_labels()
-fig.legend(handles, labels, loc="lower center", ncol=4, fontsize=9,
+fig.legend(handles, labels, loc="lower center", ncol=2, fontsize=9,
            frameon=True, bbox_to_anchor=(0.5, -0.08))
 
 fig.suptitle(
-    "Mean Stance Trajectory per Turn  |  color = condition  ·  linestyle = initial stance\n"
-    "(shaded = ±1 SEM)",
+    "Mean Stance by Condition and Initial Stance  (±1 SEM across all turns and legs)",
     fontsize=11, fontweight="bold"
 )
 plt.tight_layout()
