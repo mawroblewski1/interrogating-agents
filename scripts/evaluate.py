@@ -77,11 +77,11 @@ for ax, topic in zip(axes[:4], topics_ordered):
     ctrl_mean = data[data.condition == "control"]["magnitude"].mean()
     trt_mean  = data[data.condition == "treatment"]["magnitude"].mean()
     effect    = trt_mean - ctrl_mean
-    ax.set_title(f"{TOPIC_LABELS[topic]}\neffect = {effect:+.2f}", fontsize=10)
+    ax.set_title(f"{TOPIC_LABELS[topic]}\neffect = {effect:+.2f}", fontsize=20)
     ax.set_xlabel("")
-    ax.set_ylabel("Magnitude (|s_6 − s_0|)" if ax == axes[0] else "")
+    ax.set_ylabel("Magnitude (|s_6 − s_0|)" if ax == axes[0] else "", fontsize=16)
     ax.set_ylim(-0.2, 4.5)
-    ax.tick_params(labelsize=9)
+    ax.tick_params(labelsize=16)
 
 # Pooled
 ax = axes[4]
@@ -97,13 +97,13 @@ sns.stripplot(
 )
 ctrl_mean = quads_df[quads_df.condition == "control"]["magnitude"].mean()
 trt_mean  = quads_df[quads_df.condition == "treatment"]["magnitude"].mean()
-ax.set_title(f"Pooled (all topics)\neffect={trt_mean - ctrl_mean:+.2f}", fontsize=10)
+ax.set_title(f"Pooled (all topics)\neffect = {trt_mean - ctrl_mean:+.2f}", fontsize=20)
 ax.set_xlabel("")
 ax.set_ylabel("")
 ax.set_ylim(-0.2, 4.5)
-ax.tick_params(labelsize=9)
+ax.tick_params(labelsize=16)
 
-fig.suptitle("Stance-change Magnitude by Topic and Condition", fontsize=12, fontweight="bold")
+fig.suptitle("Stance-change Magnitude by Topic and Condition", fontsize=28, fontweight="bold")
 plt.tight_layout()
 plt.savefig(FIGS_DIR / "fig1_magnitude_by_condition.png", dpi=150, bbox_inches="tight")
 plt.close()
@@ -143,21 +143,21 @@ for ax, topic in zip(axes, topics_ordered):
                         label=STANCE_LABELS[init_stance])
 
     ax.axhline(0, color="gray", linestyle="--", linewidth=0.8, alpha=0.5)
-    ax.set_title(TOPIC_LABELS[topic], fontsize=11)
+    ax.set_title(TOPIC_LABELS[topic], fontsize=18)
     ax.set_xticks([0, 1])
-    ax.set_xticklabels(COND_ORDER, fontsize=10)
-    ax.set_xlabel("Condition", fontsize=10)
-    ax.set_ylabel("Mean final stance score (±1 SEM)" if ax == axes[0] else "")
+    ax.set_xticklabels(COND_ORDER, fontsize=18)
+    ax.set_xlabel("Condition", fontsize=18)
+    ax.set_ylabel("Mean final stance score (±1 SEM)" if ax == axes[0] else "", fontsize=14)
     ax.set_ylim(-2.5, 2.5)
-    ax.tick_params(labelsize=9)
+    ax.tick_params(labelsize=18)
 
 handles, labels = axes[0].get_legend_handles_labels()
-fig.legend(handles, labels, loc="lower center", ncol=2, fontsize=9,
-           frameon=True, bbox_to_anchor=(0.5, -0.08))
+fig.legend(handles, labels, loc="lower center", ncol=2, fontsize=18,
+           frameon=True, bbox_to_anchor=(0.5, -0.16))
 
 fig.suptitle(
     "Mean Final Stance (turn 6) by Condition and Initial Stance (±1 SEM)",
-    fontsize=11, fontweight="bold"
+    fontsize=24, fontweight="bold"
 )
 plt.tight_layout()
 plt.savefig(FIGS_DIR / "fig2_trajectories.png", dpi=150, bbox_inches="tight")
@@ -184,16 +184,16 @@ for i, (condition, color) in enumerate(PALETTE.items()):
                   color=color, alpha=0.85, edgecolor="white", linewidth=0.8)
     for bar, v in zip(bars, vals):
         ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 1,
-                f"{v:.0f}%", ha="center", va="bottom", fontsize=9)
+                f"{v:.0f}%", ha="center", va="bottom", fontsize=12)
 
 ax.set_xticks(x)
-ax.set_xticklabels(topic_order, fontsize=10)
+ax.set_xticklabels(topic_order, fontsize=12)
 ax.set_ylabel("Directional accuracy (%, based on final stance)", fontsize=10)
 ax.set_ylim(0, 115)
 ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax=100, decimals=0))
 ax.legend(fontsize=9)
 ax.set_title("Directional Accuracy (turn 6) by Topic and Condition",
-             fontsize=10, fontweight="bold")
+             fontsize=14, fontweight="bold")
 ax.axhline(50, color="gray", linestyle=":", linewidth=0.8, alpha=0.7)
 ax.text(2.6, 51.5, "chance", fontsize=8, color="gray")
 plt.tight_layout()
