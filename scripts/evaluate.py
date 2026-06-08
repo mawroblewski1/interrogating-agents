@@ -66,11 +66,13 @@ for ax, topic in zip(axes[:4], topics_ordered):
     data = quads_df[quads_df["topic"] == topic]
     sns.boxplot(
         data=data, x="condition", y="magnitude", hue="condition", palette=PALETTE,
-        order=["control", "treatment"], width=0.5, ax=ax, linewidth=1.2, legend=False
+        order=["control", "treatment"], width=0.5, ax=ax, linewidth=1.2, legend=False,
+        flierprops={"marker": ""}
     )
     sns.stripplot(
         data=data, x="condition", y="magnitude", hue="condition", palette=PALETTE,
-        order=["control", "treatment"], size=5, jitter=True, ax=ax, alpha=0.7, legend=False
+        order=["control", "treatment"], size=5, jitter=True, ax=ax, alpha=0.7,
+        legend=False, zorder=2
     )
     ctrl_mean = data[data.condition == "control"]["magnitude"].mean()
     trt_mean  = data[data.condition == "treatment"]["magnitude"].mean()
@@ -85,11 +87,13 @@ for ax, topic in zip(axes[:4], topics_ordered):
 ax = axes[4]
 sns.boxplot(
     data=quads_df, x="condition", y="magnitude", hue="condition", palette=PALETTE,
-    order=["control", "treatment"], width=0.5, ax=ax, linewidth=1.2, legend=False
+    order=["control", "treatment"], width=0.5, ax=ax, linewidth=1.2, legend=False,
+    flierprops={"marker": ""}
 )
 sns.stripplot(
     data=quads_df, x="condition", y="magnitude", hue="condition", palette=PALETTE,
-    order=["control", "treatment"], size=5, jitter=True, ax=ax, alpha=0.5, legend=False
+    order=["control", "treatment"], size=5, jitter=True, ax=ax, alpha=0.5,
+    legend=False, zorder=2
 )
 ctrl_mean = quads_df[quads_df.condition == "control"]["magnitude"].mean()
 trt_mean  = quads_df[quads_df.condition == "treatment"]["magnitude"].mean()
