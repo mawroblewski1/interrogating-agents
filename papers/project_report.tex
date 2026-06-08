@@ -25,14 +25,6 @@
 
 \title{Can Recommending Real-World Interrogation Techniques Help LLMs Moderate Extremist Views?}
 
-\author{Bill Steeven Koumba Moussadji Lu}
-\affiliation{\institution{University of California, Davis}\city{Davis}\state{CA}\country{USA}}
-\email{bkoumbamoussadjilu@ucdavis.edu}
-
-\author{Sanjay Manivasagam}
-\affiliation{\institution{University of California, Davis}\city{Davis}\state{CA}\country{USA}}
-\email{sanmanivas@ucdavis.edu}
-
 \author{Marcin Wróblewski}
 \affiliation{\institution{University of California, Davis}\city{Davis}\state{CA}\country{USA}}
 \email{mawroblewski@ucdavis.edu}
@@ -40,6 +32,14 @@
 \author{Haoyu Yan}
 \affiliation{\institution{University of California, Davis}\city{Davis}\state{CA}\country{USA}}
 \email{yhyyan@ucdavis.edu}
+
+\author{Bill Steeven Koumba Moussadji Lu}
+\affiliation{\institution{University of California, Davis}\city{Davis}\state{CA}\country{USA}}
+\email{bkoumbamoussadjilu@ucdavis.edu}
+
+\author{Sanjay Manivasagam}
+\affiliation{\institution{University of California, Davis}\city{Davis}\state{CA}\country{USA}}
+\email{sanmanivas@ucdavis.edu}
 
 % ─────────────────────────────────────────────────────────────────────────────
 \begin{abstract}
@@ -581,7 +581,7 @@ RAG-guided interrogator produces more monotonic trajectories
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\linewidth]{../results/figures/fig3_directional_accuracy.png}
+  \includegraphics[width=\linewidth]{./results/figures/fig3_directional_accuracy.png}
   \caption{Directional accuracy (\%) by topic and condition. The dashed line at
     50\% marks direction-agnostic drift. Treatment exceeds control on 3 of 4
     topics; Arts is the exception (60\% = 60\%).}
@@ -590,7 +590,7 @@ RAG-guided interrogator produces more monotonic trajectories
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\linewidth]{../results/figures/fig1_magnitude_by_condition.png}
+  \includegraphics[width=\linewidth]{./results/figures/fig1_magnitude_by_condition.png}
   \caption{Stance-change magnitude (boxplots with individual points) by topic
     and condition. The pooled panel (rightmost) shows overlapping distributions
     with similar means. Magnitude is a secondary metric due to judge scale drift
@@ -601,7 +601,7 @@ RAG-guided interrogator produces more monotonic trajectories
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\linewidth]{../results/figures/fig2_trajectories.png}
+  \includegraphics[width=\linewidth]{./results/figures/fig2_trajectories.png}
   \caption{Mean final stance (turn 6) by condition and initial suspect stance
     ($\pm$1 SEM); line colour encodes initial stance ($+2$ = blue, $-2$ = red).
     Treatment generally moves suspects toward the Interrogator's position, but
@@ -774,11 +774,11 @@ Each member wrote their own contribution statement.
 
 \textbf{Marcin Wróblewski}: Initiated the project and its core research idea
 (using real-world interrogation techniques to moderate extremist stances).
-Proposed the overall three-role multi-agent architecture (Suspect, Interrogator,
-Judge), the quad-based experimental design, and the real-data generalization test
-(the Davis Measure~V condition). Led the team and organized the collaborative
+Proposed and developed the overall three-role multi-agent architecture (Suspect, Interrogator,
+Judge), the quad-based experimental design, the real-data generalization test
+(the Davis Measure~V condition) and social network intervention application. Composed proposal document. Led the team and organized the collaborative
 working meetings, and maintained the project's GitHub infrastructure. Finalized
-the slides for the final presentation. Contributed to revising the paper.
+the slides for the in-class presentation. Contributed to writing and revising the paper, and refining the figures and plots.
 
 \textbf{Haoyu Yan}: Implemented the entire codebase realizing the team's designs:
 the LLM client (Ollama HTTP wrapper); the three roles, including the
@@ -811,7 +811,7 @@ presentation sections.\par}
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Meeting Participation}
-Much of the project's progress was made collaboratively during the team's working
+The majority of the project's progress was made collaboratively during the team's working
 meetings. We note attendance below as one objective reference point.
 
 \begin{table}[h]
