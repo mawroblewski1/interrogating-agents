@@ -23,7 +23,7 @@ import pandas as pd
 import seaborn as sns
 
 BASE        = Path(__file__).parent
-RESULTS_DIR = BASE / "results"
+RESULTS_DIR = Path(__file__).parent.parent / "results"
 FIGS_DIR    = RESULTS_DIR / "figures"
 FIGS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -77,9 +77,9 @@ for ax, topic in zip(axes[:4], topics_ordered):
     ctrl_mean = data[data.condition == "control"]["magnitude"].mean()
     trt_mean  = data[data.condition == "treatment"]["magnitude"].mean()
     effect    = trt_mean - ctrl_mean
-    ax.set_title(f"{TOPIC_LABELS[topic]}\neffect={effect:+.2f}", fontsize=10)
+    ax.set_title(f"{TOPIC_LABELS[topic]}\neffect = {effect:+.2f}", fontsize=10)
     ax.set_xlabel("")
-    ax.set_ylabel("Magnitude (|s_N − s_0|)" if ax == axes[0] else "")
+    ax.set_ylabel("Magnitude (|s_6 − s_0|)" if ax == axes[0] else "")
     ax.set_ylim(-0.2, 4.5)
     ax.tick_params(labelsize=9)
 
@@ -103,7 +103,7 @@ ax.set_ylabel("")
 ax.set_ylim(-0.2, 4.5)
 ax.tick_params(labelsize=9)
 
-fig.suptitle("Stance-change Magnitude: Control vs. Treatment", fontsize=12, fontweight="bold")
+fig.suptitle("Stance-change Magnitude by Topic and Condition", fontsize=12, fontweight="bold")
 plt.tight_layout()
 plt.savefig(FIGS_DIR / "fig1_magnitude_by_condition.png", dpi=150, bbox_inches="tight")
 plt.close()
@@ -116,7 +116,7 @@ print("Saved fig1_magnitude_by_condition.png")
 # only turn 6 is available in current results; per-turn logging is a planned extension
 
 STANCE_COLORS  = {2: "#2C7BB6", -2: "#D7191C"}
-STANCE_LABELS  = {2: "initial stance +2", -2: "initial stance −2"}
+STANCE_LABELS  = {2: "initial stance = +2", -2: "initial stance = −2"}
 COND_ORDER     = ["control", "treatment"]
 COND_X         = {c: i for i, c in enumerate(COND_ORDER)}
 
@@ -156,7 +156,7 @@ fig.legend(handles, labels, loc="lower center", ncol=2, fontsize=9,
            frameon=True, bbox_to_anchor=(0.5, -0.08))
 
 fig.suptitle(
-    "Mean Final Stance (Turn 6) by Condition and Initial Stance  (±1 SEM)",
+    "Mean Final Stance (turn 6) by Condition and Initial Stance (±1 SEM)",
     fontsize=11, fontweight="bold"
 )
 plt.tight_layout()
@@ -192,7 +192,7 @@ ax.set_ylabel("Directional accuracy (%, based on final stance)", fontsize=10)
 ax.set_ylim(0, 115)
 ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax=100, decimals=0))
 ax.legend(fontsize=9)
-ax.set_title("Directional Accuracy (based on turn 6): % of Legs Where Stance Moved Toward Interrogator's Position",
+ax.set_title("Directional Accuracy (turn 6) by Topic and Condition",
              fontsize=10, fontweight="bold")
 ax.axhline(50, color="gray", linestyle=":", linewidth=0.8, alpha=0.7)
 ax.text(2.6, 51.5, "chance", fontsize=8, color="gray")
