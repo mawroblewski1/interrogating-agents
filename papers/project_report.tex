@@ -583,17 +583,19 @@ RAG-guided interrogator produces more monotonic trajectories
   \centering
   \includegraphics[width=\linewidth]{../results/figures/fig3_directional_accuracy.png}
   \caption{Directional accuracy (\%) by topic and condition. The dashed line at
-    50\% marks direction-agnostic drift. Treatment exceeds control on 3 of 4 topics.}
+    50\% marks direction-agnostic drift. Treatment exceeds control on 3 of 4
+    topics; Arts is the exception (60\% = 60\%).}
   \label{fig:fig3}
 \end{figure}
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=\linewidth]{../results/figures/fig1_magnitude_by_condition.png}
-  \caption{Stance-change magnitude distributions by topic and condition.
-    Pooled panel (rightmost) shows overlapping distributions with marginally
-    higher treatment mean. Magnitude is a secondary metric due to judge scale
-    drift on complex propositions.}
+  \caption{Stance-change magnitude (boxplots with individual points) by topic
+    and condition. The pooled panel (rightmost) shows overlapping distributions
+    with similar means. Magnitude is a secondary metric due to judge scale drift
+    on complex propositions; directional accuracy (Figure~\ref{fig:fig3}) is more
+    reliable.}
   \label{fig:fig1}
 \end{figure}
 
@@ -604,7 +606,8 @@ RAG-guided interrogator produces more monotonic trajectories
     ($\pm$1 SEM); line colour encodes initial stance ($+2$ = blue, $-2$ = red).
     Treatment generally moves suspects toward the Interrogator's position, but
     appears less effective than control for initial stance $-2$ on Housing and
-    Arts. See Figure~\ref{fig:fig3} for directional accuracy.}
+    Arts. Turn-0 baseline scores are unavailable in the current results.
+    See Figure~\ref{fig:fig3} for directional accuracy.}
   \label{fig:fig2}
 \end{figure}
 
