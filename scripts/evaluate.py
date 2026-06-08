@@ -188,11 +188,11 @@ for i, (condition, color) in enumerate(PALETTE.items()):
 
 ax.set_xticks(x)
 ax.set_xticklabels(topic_order, fontsize=10)
-ax.set_ylabel("Directional accuracy (%)", fontsize=10)
+ax.set_ylabel("Directional accuracy (%, based on final stance)", fontsize=10)
 ax.set_ylim(0, 115)
 ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax=100, decimals=0))
 ax.legend(fontsize=9)
-ax.set_title("Directional Accuracy: % of Legs Where Stance Moved Toward Interrogator's Position",
+ax.set_title("Directional Accuracy (based on turn 6): % of Legs Where Stance Moved Toward Interrogator's Position",
              fontsize=10, fontweight="bold")
 ax.axhline(50, color="gray", linestyle=":", linewidth=0.8, alpha=0.7)
 ax.text(2.6, 51.5, "chance", fontsize=8, color="gray")
