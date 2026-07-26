@@ -1,0 +1,72 @@
+# Extremism keyword lexicon.
+#
+# Format:
+#   Lines starting with '#' are ignored.
+#   [topic_name]     starts a TOPIC bucket. Terms here compete for the Stage-4
+#                     topic label (whichever topic gets the most keyword hits wins).
+#   [signal:name]     starts a SIGNAL bucket. Terms here are scored separately in
+#                     Stage 4 and reported alongside the topic, but never compete
+#                     for the topic label itself (e.g. trollish/meme markers that
+#                     are ambiguous on their own).
+#   plain term line    one term or phrase per line, no quoting needed — whitespace
+#                     and punctuation within the line are part of the term itself.
+#   Terms placed before any header (or in a header-less file) still count toward
+#   Stage 1's coarse ext_hits prefilter, but are excluded from all Stage-4 topic/
+#   signal buckets.
+#
+# Matching is substring, case-insensitive, no stemming/punctuation normalization.
+# Run validate_lexicon.py after editing this file to catch structural mistakes.
+#
+# Lexicon version: 2026-07-25
+# Changelog:
+#   2026-07-25: switched to bracketed-section format (single source of truth for
+#               both Stage 1's flat prefilter and Stage 4's topic classification);
+#               added [antisemitic] and [signal:trollish] sections.
+
+[anti_vaccine]
+# source: functional civic-term placeholder set (non-slur); replace/expand per project needs
+vaccine
+vax
+jab
+big pharma
+cdc
+mrna
+natural immunity
+
+[anti_government]
+# source: functional civic-term placeholder set (non-slur); replace/expand per project needs
+deep state
+tyranny
+stolen election
+patriot
+globalist
+
+[racial]
+# TODO: supply terms from your chosen hate-speech/extremism resource
+
+[misogyny]
+# TODO: supply terms from your chosen hate-speech/extremism resource
+
+[religious]
+# TODO: supply terms from your chosen hate-speech/extremism resource
+
+[antisemitic]
+# source: ADL Hate Symbols Database (documented neo-Nazi/antisemitic markers)
+(((
+)))
+88
+1488
+14/88
+14 words
+rothschild
+zionist bankers
+international bankers
+
+[signal:trollish]
+# ambiguous nihilist/meme markers: contribute to the coarse prefilter and are
+# reported as a separate signal, but deliberately do NOT drive topic classification
+clown world
+🤡
+🍿
+honk honk
+honkler
