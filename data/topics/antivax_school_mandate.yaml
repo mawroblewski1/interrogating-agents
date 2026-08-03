@@ -1,0 +1,403 @@
+id: antivax_school_mandate
+question: "Should childhood vaccination be required for school attendance?"
+source: >
+  Arguments drawn strictly from the following fetched sources:
+  (1) ScienceAlert / Science As Fact (2018): "Here's How You Can Debunk 7 Most
+  Common Anti-Vaxxer Arguments With Science"
+  (sciencealert.com/here-s-how-to-debunk-every-anti-vaxxer-argument-with-science)
+  (2) History of Vaccines / College of Physicians of Philadelphia, Najera, R. F.
+  (2025): "Top Ten Anti-Vaccine Myths Debunked, Again"
+  (historyofvaccines.org/blog/top-ten-anti-vaccine-myths-debunked-again)
+  (3) The Iron Warrior / University of Waterloo, Suys, S. (2021): "How to Argue
+  with an Anti-vaxxer: A Point-by-point Refutation"
+  (iwarrior.uwaterloo.ca/2021/10/16/50506/)
+  (4) Wikipedia: Vaccine Hesitancy
+  (en.wikipedia.org/wiki/Vaccine_hesitancy)
+  (5) Wikipedia: Vaccine Misinformation
+  (en.wikipedia.org/wiki/Vaccine_misinformation)
+  Attitude roots for suspect_values drawn from:
+  (6) Fasce, A. et al. (2023). A taxonomy of anti-vaccination arguments.
+  Nature Human Behaviour 7, 1462-1480.
+
+n_turns: 6
+n_quads: 5
+suspect_information: aligned_only
+
+supporters:
+  summary: >
+    The scientific and medical consensus on vaccine safety and efficacy is
+    clear and unambiguous. Childhood vaccines are among the most rigorously
+    tested and effective public health interventions in history, protecting
+    not only vaccinated individuals but also those who cannot be vaccinated.
+  key_arguments:
+
+    # On ingredients
+    - "Vaccine ingredients such as aluminum and formaldehyde are present in
+      quantities far below harmful thresholds. The human body continuously
+      produces formaldehyde naturally and contains 50 to 70 times the greatest
+      amount of formaldehyde present in any vaccine. The aluminum present in a
+      vaccine dose amounts to about 0.125 mg per dose, far less than the average
+      30 to 50 mg the average human consumes every day. Aluminium is included
+      in vaccines as an adjuvant and has low toxicity even in large amounts.
+      [Sources 1, 4, 5]"
+
+    - "Thiomersal is a harmless component used in some multi-dose vaccines to
+      maintain sterility. There are no known adverse effects due to it. A vaccine
+      containing 0.01% thiomersal has 25 micrograms of mercury per 0.5 mL dose,
+      roughly the same amount of elemental mercury found in a three-ounce can of
+      tuna. Thiomersal has been cleared from all common US and European childhood
+      vaccines except some influenza preparations. [Sources 4, 5]"
+
+    # On mRNA vaccines and DNA
+    - "mRNA vaccines do not alter DNA. The mRNA in vaccines is rapidly degraded
+      in the cytosol before it could gain entry into the cell nucleus. A retrovirus
+      has specific mechanisms to be imported into the nucleus, but other mRNA lack
+      these mechanisms. Once inside the nucleus, creation of DNA from RNA cannot
+      occur without a primer which accompanies a retrovirus but would not exist
+      for vaccine mRNA. Thus mRNA vaccines cannot alter DNA because they cannot
+      enter the nucleus and have no primer to activate reverse transcriptase.
+      [Sources 2, 5]"
+
+    - "The COVID-19 vaccines followed rigorous testing including in vitro and
+      in vivo testing. The Pfizer-BioNTech and Moderna vaccines were both found
+      to be over 90 percent effective in clinical trials each involving over 30,000
+      people. Real-world data from billions of administered doses confirms their
+      safety profile. Previous coronavirus research provided a head start while
+      unprecedented global funding removed bureaucratic delays; all standard
+      testing phases were completed. [Sources 2, 3]"
+
+    # On the microchip conspiracy
+    - "The COVID-19 microchip conspiracy theory arose from confusion over the word
+      'chip' in research papers on microneedle vaccine delivery. In those studies,
+      a silicon chip is pressed against the skin to make needles prick it, then
+      disposed of — it is neither implanted nor can it physically fit into a
+      syringe needle. A 2020 YouGov poll found 28 percent of Americans believed
+      this theory, which originated from a misreading of Bill and Melinda Gates
+      Foundation-sponsored research on subcutaneous vaccination record-keeping
+      using fluorescent ink tattoos. [Sources 2, 5]"
+
+    # On autism
+    - "The alleged link between the MMR vaccine and autism was based on a
+      fraudulent paper published in The Lancet in 1998 by Andrew Wakefield, who
+      failed to disclose financial conflicts of interest — he reportedly stood to
+      earn up to $43 million per year selling diagnostic kits. The paper was
+      partially retracted in 2004 and fully retracted in 2010. Wakefield was
+      struck off the UK medical register with a finding of deliberate falsification.
+      Multiple large-scale studies involving more than half a million children found
+      no causal link. A 2004 Institute of Medicine committee favored rejecting any
+      causal relationship. Autism develops in utero during fetal development, not
+      after vaccination. [Sources 4, 5]"
+
+    - "The concept of vaccine overload is biologically implausible. Despite the
+      increase in the number of vaccines given since 1980, improvements in vaccine
+      design have reduced the immunological load: the total number of immunological
+      components in the 14 vaccines administered to US children in 2009 was less
+      than 10 percent of vaccines given in 1980. The vaccine schedule in 2012
+      contained several more vaccines but the number of antigens was 315.
+      Common childhood conditions such as fevers and middle-ear infections pose
+      a much greater challenge to the immune system than vaccines. [Source 4]"
+
+    # On VAERS
+    - "VAERS accepts all reports without verifying causation. The system's
+      strength lies in detecting signals for further investigation, not counting
+      confirmed injuries. Proper analysis requires comparing vaccinated and
+      unvaccinated populations, not reading raw VAERS numbers as confirmed
+      deaths or injuries. [Sources 2, 4]"
+
+    # On myocarditis and serious side effects
+    - "As with any medical treatment there is potential for vaccines to cause
+      serious complications such as allergic reactions, but unlike other
+      interventions vaccines are given to healthy people and so require a higher
+      safety standard. Serious complications are extremely rare and much less
+      common than the risks from the diseases they prevent. The chances of having
+      a reaction to the MMR vaccine is one in a million, which is ten times less
+      likely than being killed by lightning. [Sources 1, 4]"
+
+    # On fertility
+    - "There is no evidence that any vaccine has a negative impact on fertility.
+      The false narrative that mRNA vaccine-induced antibodies could attack the
+      placental protein syncytin-1 causing infertility has no supporting evidence.
+      A joint statement of the American College of Obstetricians and Gynecologists,
+      the American Society for Reproductive Medicine, and the Society for
+      Maternal-Fetal Medicine clearly states there is no evidence that the vaccine
+      can lead to loss of fertility. [Sources 2, 5]"
+
+    # On SIDS
+    - "Several studies investigated a possible link between vaccination and SIDS
+      and found no evidence supporting a causal link. In 2003 the Institute of
+      Medicine favored rejection of a causal link to DTwP vaccination and SIDS.
+      Studies have actually shown a negative correlation between SIDS and
+      vaccination — vaccinated children are less likely to die from SIDS.
+      [Source 4]"
+
+    # On natural immunity
+    - "While infection with certain illnesses may produce immunity, many natural
+      infections do not produce lifelong immunity while carrying a higher risk of
+      harm than vaccines. Natural measles infection carries a high risk of
+      serious complications: about 1 in 4 individuals will be hospitalized and
+      1 to 2 in 1000 will die. The measles virus can deplete previously acquired
+      immune memory by killing cells that make antibodies, weakening the immune
+      system for up to two years and historically implicated in up to 90 percent
+      of childhood deaths in third world countries. The HPV vaccine generates
+      better immune protection than natural infection due to higher concentrations
+      of the viral coat protein. [Sources 3, 4]"
+
+    # On herd immunity and collective obligation
+    - "Herd immunity is when enough of the population is vaccinated that a virus
+      cannot spread enough to maintain a foothold. When this occurs the infected
+      population steadily decreases until the virus eventually dies out, as
+      measles and polio largely have. Measles vaccine compliance dropped by 3
+      percent from 2019 to 2024 and rates in the US dropped below the herd
+      immunity threshold of 95 percent during the 2023-2024 academic year.
+      In 2019, measles cases increased by thirty percent worldwide. In 2024 there
+      were 10.3 million global measles cases. [Sources 2, 5]"
+
+    - "Vaccination does not just protect the individual; it also protects those
+      who cannot be vaccinated — newborns, the immunocompromised, cancer patients
+      undergoing chemotherapy. The choice not to vaccinate directly undermines
+      the protection of these people and, as long as enough people remain
+      unvaccinated, herd immunity cannot be reached. [Sources 1, 3]"
+
+    # On disease decline and sanitation
+    - "Anti-vaccine literature argues that disease reduction resulted from
+      improved sanitation rather than vaccination. This is not supported by
+      scientific data: the incidence of vaccine-preventable diseases tended to
+      fluctuate over time until the introduction of specific vaccines, at which
+      point incidence dropped to near zero. The CDC has noted: 'Are we expected
+      to believe that better sanitation caused the incidence of each disease to
+      drop, just at the time a vaccine for that disease was introduced?'
+      [Sources 1, 4]"
+
+    # On institutions
+    - "Vaccines are some of the most highly regulated substances. In the US it
+      can take 10 to 25 years for one vaccine to be approved, and even once on
+      the market it continues to be monitored. In the US between 1994 and 2013,
+      vaccines created a net saving of $295 billion in direct costs and $1.3
+      trillion in societal costs. As of 2010, the WHO estimated vaccines represent
+      only 2 to 3 percent of total pharmaceutical industry sales — they are not
+      the profit center anti-vaccine narratives suggest. [Sources 1, 4]"
+
+    # On the backfire of information-only interventions
+    - "Research shows that providing more information alone is often ineffective
+      in changing a vaccine-hesitant person's views and may in fact have the
+      opposite of the intended effect, reinforcing misconceptions. Communication
+      strategies that are recommended instead include establishing honest and
+      respectful dialogue, acknowledging risks while balancing them against disease
+      risks, maintaining a conversational tone rather than lecturing, and not
+      spending excessive time debunking specific myths as this may strengthen
+      them. [Sources 4, 5]"
+
+opponents:
+  summary: >
+    A range of concerns about specific ingredients, long-term side effects,
+    institutional trust, and individual rights lead many Americans and Europeans
+    to oppose childhood vaccine mandates. Note: the following arguments represent
+    claims documented in the sources as circulating in anti-vaccine discourse;
+    many are factually contested or false as documented above.
+  key_arguments:
+
+    # Specific ingredient and safety claims (Sources 4, 5)
+    - "Vaccines contain dangerous chemicals — mercury (thimerosal), aluminum,
+      formaldehyde, and other toxic substances — that are being injected directly
+      into children. These are industrial poisons at any dose. [Claim documented
+      in Sources 4, 5]"
+
+    - "The COVID-19 mRNA vaccine permanently alters your DNA and contains
+      microchips implanted by Bill Gates and the government to track and
+      surveil citizens. [Claim documented in Sources 2, 5]"
+
+    - "COVID-19 vaccines cause infertility by producing antibodies that attack
+      the placental protein syncytin-1, destroying women's reproductive systems.
+      This is why birth rates dropped after the vaccine rollout. [Claim documented
+      in Source 5]"
+
+    - "Vaccines cause myocarditis and other serious heart conditions, particularly
+      in young men. The risk of vaccine-induced myocarditis exceeds the risk of
+      COVID-19 itself in young healthy people. [Claim circulating in anti-vaccine
+      communities; documented as a concern in Sources 2, 4]"
+
+    - "The COVID-19 vaccines cause VAERS to record thousands of deaths and
+      serious injuries. The real number is far higher since VAERS only captures
+      a fraction of actual adverse events — the system itself proves vaccines
+      are dangerous. [Claim documented in Sources 2, 4]"
+
+    - "Vaccines are linked to SIDS. Babies die within days of vaccination and
+      the medical establishment refuses to investigate the connection because it
+      would destroy the vaccine program. [Claim documented in Source 4]"
+
+    # Autism claims (Sources 4, 5)
+    - "Vaccines cause autism. Andrew Wakefield proved the MMR-autism link and
+      was destroyed for exposing the truth. The fact that his study was retracted
+      only shows how much power Big Pharma has over the medical establishment.
+      Too many vaccines too soon are overwhelming children's immune systems during
+      a critical developmental window. [Claim documented in Sources 4, 5]"
+
+    # Efficacy claims (Sources 2, 3, 5)
+    - "The vaccine does not work — vaccinated people still get and spread the
+      diseases they were vaccinated against. Breakthrough cases prove vaccines
+      are ineffective. If they worked, why do we need boosters every year?
+      [Claim documented in Sources 2, 3]"
+
+    - "Natural immunity from recovering from the actual disease is far superior
+      to vaccine-induced immunity — it is broader, more durable, and carries
+      none of the vaccine's risks. Our immune systems evolved over millennia
+      without pharmaceutical injections. [Claim documented in Sources 2, 4]"
+
+    - "The diseases vaccines prevent were already declining before the vaccines
+      were introduced, due to better sanitation, hygiene, clean water, and
+      nutrition. Vaccines got the credit for trends already underway. Measles
+      was becoming less deadly before the vaccine existed. [Claim documented
+      in Sources 1, 4]"
+
+    - "The COVID-19 vaccine makes the virus mutate faster, creating more
+      dangerous variants. The vaccinated are driving the pandemic through
+      vaccine-induced evolutionary pressure. [Claim documented in Source 2]"
+
+    # Institutional distrust (Sources 4, 5)
+    - "Big Pharma owns the regulatory agencies. The FDA, CDC, and WHO are
+      funded by pharmaceutical companies and cannot give unbiased guidance.
+      Vaccines represent nothing but profit — the manufacturers have zero
+      liability thanks to the National Childhood Vaccine Injury Act, which
+      proves they know vaccines are dangerous. [Claim documented in Sources
+      4, 5]"
+
+    - "The CDC and NIH have cancelled funding for vaccine hesitancy research
+      and the CDC website now says vaccines may be linked to autism — even
+      governments are admitting the truth they suppressed for years. Doctors
+      and scientists who raise safety concerns are silenced and deplatformed.
+      [Claim documented in Source 5; relates to November 2025 CDC website
+      changes under RFK Jr.]"
+
+    - "Russia, foreign governments, and the CIA have run fake vaccination
+      programs — the CIA ran a fake vaccine clinic in Pakistan to locate Osama
+      bin Laden, causing attacks on vaccination workers and polio persistence.
+      If governments use vaccines as cover for covert operations, why would
+      we trust any vaccine program? [Historical fact from Source 4 misused
+      as anti-vaccine argument]"
+
+    - "Historical contamination incidents prove vaccines have never been safe:
+      the 1955 Cutter incident produced 120,000 doses of polio vaccine containing
+      live poliovirus, causing 40,000 cases of polio, 53 paralysis cases, and
+      5 deaths. In 1901 contaminated diphtheria antitoxin killed 13 children
+      in St Louis. These disasters were covered up and could happen again.
+      [Historical facts from Source 4 deployed as anti-vaccine argument]"
+
+    # Rights and autonomy (Sources 1, 3, 4)
+    - "My body, my choice. No government has the right to mandate what goes into
+      my or my child's body. Compulsory vaccination is a fundamental violation
+      of bodily autonomy, parental rights, and informed consent. The government
+      mandating medical procedures is the first step toward totalitarianism.
+      [Claim documented in Sources 1, 3, 4]"
+
+    - "I have done my own research. I am not anti-science — I am pro-informed
+      consent and pro-transparency. If you cannot question vaccines you are
+      living in a cult, not doing science. The fact that dissent is suppressed
+      on social media proves something is being hidden. [Claim documented in
+      Sources 4, 5]"
+
+    - "Being unvaccinated does not harm anyone else. If your vaccine works,
+      you are protected from me. If it does not work, why did you take it?
+      Healthy unvaccinated people are not a threat to vaccinated people.
+      [Claim documented in Sources 1, 3]"
+
+    # Alternative medicine (Sources 4, 5)
+    - "Vitamin D, zinc, ivermectin, quercetin, and other natural treatments
+      are safer and more effective alternatives that the medical establishment
+      refuses to acknowledge because they cannot be patented and do not
+      generate pharmaceutical profits. Homeopathic nosodes and natural immunity
+      are the way humans survived for millennia. [Claim documented in Source 5]"
+
+    - "Chiropractic and naturopathic medicine have long understood that vaccines
+      are unnatural interventions. Around one third of chiropractors in surveys
+      have found no scientific proof that immunization prevents disease.
+      [Documented in Source 4]"
+
+    # Religious and moral objections (Sources 4, 5)
+    - "Some vaccines were developed using fetal cell lines from aborted babies.
+      As a Christian and a parent, I cannot in good conscience inject my child
+      with a product derived from abortion. Some COVID-19 vaccines contain
+      porcine gelatin, making them haram for Muslims and problematic for
+      Jews. [Claim documented in Sources 4, 5]"
+
+    # Contemporary political framing (Source 4)
+    - "Around 2014, anti-vaccine rhetoric shifted from scientific and medical
+      arguments to political ones — what has been called a 'don't-tell-me-what-
+      to-do freedom movement,' linked to Tea Party and Second Amendment activism.
+      The anti-vaccine movement has repositioned itself as opposition to mandates
+      and government overreach. A May 2022 New York Times report noted that a
+      wave of parents has been radicalized by COVID-era misinformation to reject
+      ordinary childhood immunizations. [Documented in Source 4]"
+
+suspect_values:
+  for:
+    # Values driving pro-vaccine / pro-mandate position
+    - community protection and collective responsibility through herd immunity
+    - trust in scientific institutions and peer-reviewed evidence
+    - child welfare prioritized over ideological objections
+    - pragmatic risk-benefit reasoning (disease risk exceeds vaccine risk)
+    - historical awareness of vaccine-preventable disease burden
+
+  against:
+    # Attitude roots from Fasce et al. (2023) taxonomy
+    - conspiratorial ideation (Big Pharma, government cover-up, microchips,
+      depopulation agenda, regulatory capture)
+    - reactance and autonomy (opposition to mandates, bodily autonomy, parental
+      rights, Tea Party and libertarian crossover framing)
+    - institutional distrust (FDA/CDC/WHO captured by pharma, Wakefield
+      martyrdom narrative, CIA vaccine cover-ups, RFK Jr. framing)
+    - alternative health beliefs (natural immunity superior, vitamin D and zinc,
+      ivermectin, nosodes, chiropractic objections, germ theory skepticism)
+    - safety concerns (myocarditis, infertility, SIDS, VAERS deaths, ingredient
+      fears including aluminum, thimerosal, formaldehyde)
+    - efficacy doubts (breakthrough cases, booster requirement, vaccines drive
+      mutation, disease decline predated vaccines)
+    - overconfidence in own research (done my own research, epistemic autonomy,
+      mainstream suppression of dissent)
+    - moral and religious objections (fetal cell lines, halal/kosher concerns,
+      bodily autonomy as absolute right)
+    - identity-protective reasoning (anti-vax stance as core self-concept,
+      freedom movement identity, community belonging)
+    - social influence (Russian troll amplification of anti-vax content on
+      Twitter documented; anti-vax Facebook advertising targeting young mothers)
+
+persona_card_hints:
+  # Suggested persona profiles for suspect initialization
+  # Each reflects different dominant attitude roots from Fasce et al.
+  - label: conspiracy_core
+    dominant_roots: [conspiratorial_ideation, institutional_distrust]
+    description: >
+      Believes vaccine programs are coordinated deception by pharma and
+      government. Cites VAERS misinterpretation, Wakefield martyrdom,
+      microchip theory, CIA Pakistan vaccine cover-up, Bill Gates depopulation
+      agenda, and RFK Jr. framing of CDC as compromised. Counter-evidence is
+      absorbed as further proof of conspiracy. Requires Scharff-style indirect
+      engagement; direct rebuttal will be dismissed as proof of manipulation.
+
+  - label: autonomy_libertarian
+    dominant_roots: [reactance, moral_objections, identity_protective]
+    description: >
+      Primary objection is to mandate and government overreach rather than
+      vaccines per se. Frames vaccination choice as a fundamental rights issue
+      linked to Tea Party and Second Amendment identity. May acknowledge vaccines
+      have some benefits but frames mandate as tyranny. Openings via autonomy-
+      affirming MI techniques; any paternalistic framing will trigger reactance.
+
+  - label: concerned_parent
+    dominant_roots: [safety_concerns, overconfidence_in_own_knowledge,
+                     social_influence]
+    description: >
+      Genuinely worried about specific side effects for their child: myocarditis,
+      SIDS, autism link, infertility, ingredient toxicity. Has done their own
+      research via online sources and Facebook groups. Claims feel personal and
+      emotionally charged. Less identity-hardened than other profiles; most
+      reachable via rapport-building and validation of concern before evidence.
+      Xu et al. (2025) HPV vaccine personalized dialogue is the closest precedent.
+
+  - label: natural_health
+    dominant_roots: [alternative_health_beliefs, moral_objections]
+    description: >
+      Holistic worldview in which pharmaceutical intervention is categorically
+      inferior to natural approaches. May cite ivermectin, vitamin D, zinc,
+      quercetin, or nosodes as alternatives. Frame is categorical rather than
+      evidential — vaccines are wrong regardless of data. Requires engaging
+      the underlying nature and purity values rather than specific safety claims.
