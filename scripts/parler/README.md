@@ -14,8 +14,11 @@ each stage, and only pull full text for the ~100 survivors.
 
 Only Python stdlib is required for the core funnel and lexicon-building tools. The one
 exception is `06_bucket_frequency.py`'s optional `--chart` flag, which uses `matplotlib`
-to render the leaderboard PNG — everything else in that script (and every other file)
-works without it.
+to render a static, sorted horizontal bar chart (highest-scoring bucket on top, like a
+ranked scoreboard rather than an animated race) — everything else in that script (and
+every other file) works without it. Each run produces one chart; `--chart-metric`
+picks which of the three columns (raw or `@weight`-normalized) it plots — see
+"Bucket-frequency analysis" below.
 
 ## Active files
 
@@ -194,6 +197,13 @@ python3 build_lexicon_from_review.py --draft draft.tsv --lexicon lexicon.txt
 python3 validate_lexicon.py lexicon.txt
 ```
 
+A trailing ` @N` on a `sources.txt` line overrides `--max-depth` for just that one URL
+(e.g. `@1` above recurses that category only 1 level deep, regardless of the `--max-depth`
+passed on the command line) — unrelated to `lexicon.txt`'s `@weight` despite reusing the
+same character. They live in different files and are read by different code
+(`mediawiki_scrape.py` vs. `lexicon_io.py`); there's no actual ambiguity in practice, but
+worth knowing `@` means two different things depending on which file you're editing.
+
 Or do steps 1–4 in one command via `run_pipeline.sh`'s second mode:
 
 ```bash
@@ -217,14 +227,29 @@ A separate streaming pass, independent of the funnel and the lexicon-building to
 
 ```bash
 python3 06_bucket_frequency.py --input "/path/to/parler_folder" --lexicon lexicon.txt \
-    --out bucket_counts.tsv --chart leaderboard.png --limit 500000
+    --out bucket_counts.tsv --chart leaderboard_raw.png --limit 500000
 ```
 
 `bucket_counts.tsv` is plain TSV, directly readable in R (`read.delim(...)`) or pandas
 (`read_csv(..., sep="\t")`) with no conversion step. It includes both raw weighted hit
 counts and counts normalized by each bucket's `@weight`-adjusted effective term count
-(`hits_per_effective_term`), so a bucket padded with more lexicon terms isn't
-automatically over-represented.
+(`n_terms_effective`, `hits_per_effective_term`), so a bucket padded with more lexicon
+terms isn't automatically over-represented.
+
+The chart shows exactly one of those metrics per run — `--chart-metric` picks which:
+
+```bash
+# raw hit counts (default) -- can make bigger buckets look over-represented
+python3 06_bucket_frequency.py --input "..." --chart leaderboard_raw.png \
+    --chart-metric weighted_hits
+
+# normalized by @weight-adjusted effective term count -- the fairer cross-bucket comparison
+python3 06_bucket_frequency.py --input "..." --chart leaderboard_normalized.png \
+    --chart-metric hits_per_effective_term
+```
+
+Run it twice with different `--chart`/`--chart-metric` values (as above) to get both a
+raw and a normalized chart side by side — each invocation writes one PNG.
 
 ## Testing
 
