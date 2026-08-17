@@ -4,7 +4,7 @@
 # (mediawiki_scrape.py, classify_terms_llm.py, build_lexicon_from_review.py,
 # 06_bucket_frequency.py) end to end with small/synthetic inputs, so you can confirm
 # they work on YOUR machine before trusting them on real data. Not wired into
-# run_pipeline.sh -- run standalone:
+# run_parler_pipeline.sh -- run standalone:
 #
 #   chmod +x smoke_test_lexicon_tools.sh
 #   ./smoke_test_lexicon_tools.sh

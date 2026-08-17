@@ -38,20 +38,20 @@ picks which of the three columns (raw or `@weight`-normalized) it plots — see
 | `classify_terms_llm.py` | Classifies a candidate term list into buckets (draft output) |
 | `build_lexicon_from_review.py` | Merges a *reviewed* draft into `lexicon.txt` |
 | `06_bucket_frequency.py` | Standalone analysis — bucket hit-frequency + leaderboard chart |
-| `run_pipeline.sh` | Orchestrator — both the numbered-stage funnel and lexicon-building |
+| `run_parler_pipeline.sh` | Orchestrator — both the numbered-stage funnel and lexicon-building |
 | `smoke_test_lexicon_tools.sh` | Standalone test of the lexicon-building tool chain |
 
 ## Quick start
 
 ```bash
-chmod +x run_pipeline.sh
-./run_pipeline.sh --input "/path/to/parler_folder" --limit 40000   # smoke test
-./run_pipeline.sh --input "/path/to/parler_folder"                 # full run, stages 1-4
+chmod +x run_parler_pipeline.sh
+./run_parler_pipeline.sh --input "/path/to/parler_folder" --limit 40000   # smoke test
+./run_parler_pipeline.sh --input "/path/to/parler_folder"                 # full run, stages 1-4
 #   review shortlist.tsv by hand, save kept creator ids to final_users.txt
-./run_pipeline.sh --input "/path/to/parler_folder" --from 5 --to 5 # final histories pass
+./run_parler_pipeline.sh --input "/path/to/parler_folder" --from 5 --to 5 # final histories pass
 ```
 
-`run_pipeline.sh` sets up its own `.venv` on first run. It validates `lexicon.txt`
+`run_parler_pipeline.sh` sets up its own `.venv` on first run. It validates `lexicon.txt`
 automatically before any stage that uses it, and refuses to run Stage 5 until
 `final_users.txt` exists.
 
@@ -66,7 +66,7 @@ automatically before any stage that uses it, and refuses to run Stage 5 until
 | — | `shortlist.tsv` (manual review) | `final_users.txt` | human |
 | 5 | the zip(s) + `final_users.txt` | `histories/<creator>.ndjson` | full stream |
 
-Key `run_pipeline.sh` options: `--from`/`--to`/`--stage` to run a subset,
+Key `run_parler_pipeline.sh` options: `--from`/`--to`/`--stage` to run a subset,
 `--limit` (applies to Stages 1 and 3, for fast smoke tests), `--outdir`, `--lexicon`,
 `--min-text-posts`, `--min-hits`, `--max-candidates`, `--sample`, `--per-topic`.
 Every script's own defaults are listed as named constants near the top of the file, and
@@ -204,17 +204,17 @@ same character. They live in different files and are read by different code
 (`mediawiki_scrape.py` vs. `lexicon_io.py`); there's no actual ambiguity in practice, but
 worth knowing `@` means two different things depending on which file you're editing.
 
-Or do steps 1–4 in one command via `run_pipeline.sh`'s second mode:
+Or do steps 1–4 in one command via `run_parler_pipeline.sh`'s second mode:
 
 ```bash
 # per-term LLM classification, always stops for manual review
-./run_pipeline.sh --scrape-lexicon --urls sources.txt --classify-backend anthropic
+./run_parler_pipeline.sh --scrape-lexicon --urls sources.txt --classify-backend anthropic
 
 # whole list is one known bucket, no model call, still stops for review by default
-./run_pipeline.sh --scrape-lexicon --urls sources.txt --bucket antisemitic
+./run_parler_pipeline.sh --scrape-lexicon --urls sources.txt --bucket antisemitic
 
 # same, but skip the review pause entirely (only allowed with --bucket)
-./run_pipeline.sh --scrape-lexicon --urls sources.txt --bucket antisemitic --auto-merge
+./run_parler_pipeline.sh --scrape-lexicon --urls sources.txt --bucket antisemitic --auto-merge
 ```
 
 `--backend fixed --label <bucket>` (or the wrapper's `--bucket`) skips classification
@@ -300,7 +300,7 @@ python3 classify_terms_llm.py --terms my_plain_wordlist.txt --backend anthropic 
 
 Adding a new *classification* backend (e.g. a different local model, a different
 hosted API) means subclassing `ClassifierBackend` in `classifier_backends.py` and
-registering it in `BACKEND_REGISTRY` — `classify_terms_llm.py` and `run_pipeline.sh`
+registering it in `BACKEND_REGISTRY` — `classify_terms_llm.py` and `run_parler_pipeline.sh`
 don't need to change at all.
 
 ## Extending to other social media platforms
