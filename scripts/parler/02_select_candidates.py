@@ -8,14 +8,21 @@ Example:
 """
 import argparse, gzip
 
+# ---------- defaults (edit these to change built-in behavior; all overridable on the CLI) ----------
+DEFAULT_OUT = "candidates.tsv"
+DEFAULT_MIN_TEXT_POSTS = 50    # "information-rich" threshold
+DEFAULT_MIN_HITS = 3           # min extremism keyword hits
+DEFAULT_MAX_CANDIDATES = 5000
+
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--stats", required=True)
-    ap.add_argument("--out", default="candidates.tsv")
-    ap.add_argument("--min-text-posts", type=int, default=50, help="information-rich threshold")
-    ap.add_argument("--min-hits", type=int, default=3, help="min extremism keyword hits")
-    ap.add_argument("--max-candidates", type=int, default=5000)
+    ap.add_argument("--stats", required=True, help="path to user_stats.tsv.gz from Stage 1")
+    ap.add_argument("--out", default=DEFAULT_OUT, help="candidate list to write")
+    ap.add_argument("--min-text-posts", type=int, default=DEFAULT_MIN_TEXT_POSTS, help="information-rich threshold")
+    ap.add_argument("--min-hits", type=int, default=DEFAULT_MIN_HITS, help="min extremism keyword hits")
+    ap.add_argument("--max-candidates", type=int, default=DEFAULT_MAX_CANDIDATES,
+                     help="hard cap on candidate list size after ranking")
     a = ap.parse_args()
 
     rows = []

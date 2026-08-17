@@ -10,13 +10,18 @@ import argparse, json, os
 from collections import defaultdict
 import parler_io
 
+# ---------- defaults (edit these to change built-in behavior; all overridable on the CLI) ----------
+DEFAULT_OUTDIR = "histories"
+DEFAULT_MIN_BODY_CHARS = 15
+
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--input", required=True)
+    ap.add_argument("--input", required=True, help="folder containing the Parler zip(s), or a single file")
     ap.add_argument("--users", required=True, help="one creator id per line")
-    ap.add_argument("--outdir", default="histories")
-    ap.add_argument("--min-body-chars", type=int, default=15)
+    ap.add_argument("--outdir", default=DEFAULT_OUTDIR, help="where to write one <creator>.ndjson per user")
+    ap.add_argument("--min-body-chars", type=int, default=DEFAULT_MIN_BODY_CHARS,
+                     help="minimum post length to be written into a user's history")
     a = ap.parse_args()
 
     want = set()

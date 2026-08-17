@@ -8,6 +8,16 @@ Streaming reader for the Parler dataset zip(s).
 - Streams: never decompresses the whole archive into memory.
 
 Yields parsed JSON records (dicts), one per post/comment line.
+
+NOT A CLI SCRIPT -- this is a library module, imported by Stages 1, 3, and 5 (and
+06_bucket_frequency.py), not run directly (no argparse, no __main__ block). Typical
+usage from another script:
+
+  import parler_io
+  paths = parler_io.find_inputs("/path/to/parler_folder")   # or a single zip file path
+  for rec in parler_io.iter_records(paths):
+      body = rec.get("body") or ""
+      # ... do something with each post/comment record ...
 """
 from __future__ import annotations
 import os, glob, json, struct, zlib, zipfile
