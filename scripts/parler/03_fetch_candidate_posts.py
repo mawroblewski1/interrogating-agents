@@ -11,15 +11,22 @@ import argparse, gzip, json
 from collections import defaultdict
 import parler_io
 
+# ---------- defaults (edit these to change built-in behavior; all overridable on the CLI) ----------
+DEFAULT_OUT = "candidate_posts.ndjson.gz"
+DEFAULT_SAMPLE = 25            # max posts kept per candidate
+DEFAULT_MIN_BODY_CHARS = 15
+DEFAULT_LIMIT = 0              # stop after N records scanned; 0 = no limit
+
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--input", required=True)
-    ap.add_argument("--candidates", required=True)
-    ap.add_argument("--out", default="candidate_posts.ndjson.gz")
-    ap.add_argument("--sample", type=int, default=25, help="max posts kept per candidate")
-    ap.add_argument("--min-body-chars", type=int, default=15)
-    ap.add_argument("--limit", type=int, default=0, help="smoke test: stop after N records scanned (0 = all)")
+    ap.add_argument("--input", required=True, help="folder containing the Parler zip(s), or a single file")
+    ap.add_argument("--candidates", required=True, help="candidates.tsv from Stage 2")
+    ap.add_argument("--out", default=DEFAULT_OUT, help="gzip ndjson to write sampled posts to")
+    ap.add_argument("--sample", type=int, default=DEFAULT_SAMPLE, help="max posts kept per candidate")
+    ap.add_argument("--min-body-chars", type=int, default=DEFAULT_MIN_BODY_CHARS,
+                     help="minimum post length to be kept as a sample")
+    ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT, help="smoke test: stop after N records scanned (0 = all)")
     a = ap.parse_args()
 
     want = set()
