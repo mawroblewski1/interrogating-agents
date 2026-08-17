@@ -16,6 +16,13 @@ from collections import defaultdict
 import parler_io
 import lexicon_io
 
+# ---------- defaults (edit these to change built-in behavior; all overridable on the CLI) ----------
+DEFAULT_OUTDIR = "out"
+DEFAULT_LEXICON = "lexicon.txt"
+DEFAULT_CORPUS_CAP = 300000       # max posts written to the reserve corpus (Output B)
+DEFAULT_MIN_BODY_CHARS = 15       # minimum post length to count as a "text post"
+DEFAULT_LIMIT = 0                 # stop after N records scanned; 0 = no limit (process everything)
+
 
 def load_lexicon(path):
     """Flat set of every term in lexicon.txt (all sections + any unheaded terms).
@@ -32,11 +39,12 @@ def ext_hits(text_lower, terms):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--input", required=True, help="folder containing the Parler zip(s), or a single file")
-    ap.add_argument("--outdir", default="out")
-    ap.add_argument("--lexicon", default="lexicon.txt", help="one extremism term per line")
-    ap.add_argument("--corpus-cap", type=int, default=300000, help="max posts written to corpus B")
-    ap.add_argument("--min-body-chars", type=int, default=15)
-    ap.add_argument("--limit", type=int, default=0, help="smoke test: stop after N records (0 = all)")
+    ap.add_argument("--outdir", default=DEFAULT_OUTDIR, help="where to write user_stats.tsv.gz and extremist_corpus.ndjson.gz")
+    ap.add_argument("--lexicon", default=DEFAULT_LEXICON, help="one extremism term per line")
+    ap.add_argument("--corpus-cap", type=int, default=DEFAULT_CORPUS_CAP, help="max posts written to corpus B")
+    ap.add_argument("--min-body-chars", type=int, default=DEFAULT_MIN_BODY_CHARS,
+                     help="minimum post length to count as a 'text post' in the stats")
+    ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT, help="smoke test: stop after N records (0 = all)")
     a = ap.parse_args()
 
     os.makedirs(a.outdir, exist_ok=True)

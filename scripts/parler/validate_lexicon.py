@@ -21,10 +21,13 @@ import argparse
 import sys
 import lexicon_io
 
+# ---------- defaults (edit these to change built-in behavior; overridable on the CLI) ----------
+DEFAULT_LEXICON_PATH = "lexicon.txt"
+
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("path", nargs="?", default="lexicon.txt")
+    ap.add_argument("path", nargs="?", default=DEFAULT_LEXICON_PATH, help="lexicon.txt file to validate")
     a = ap.parse_args()
 
     try:

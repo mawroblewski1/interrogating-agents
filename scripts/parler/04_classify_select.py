@@ -19,6 +19,11 @@ import argparse, gzip, json
 from collections import defaultdict
 import lexicon_io
 
+# ---------- defaults (edit these to change built-in behavior; all overridable on the CLI) ----------
+DEFAULT_LEXICON = "lexicon.txt"
+DEFAULT_OUT = "shortlist.tsv"
+DEFAULT_PER_TOPIC = 60   # max users kept per topic bucket
+
 
 def score_user(posts, topic_lex, signal_lex, topic_weights):
     """Return (extremism_strength: float, topic: str, signal_hits: dict). PLACEHOLDER heuristic.
@@ -40,9 +45,9 @@ def score_user(posts, topic_lex, signal_lex, topic_weights):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--posts", required=True, help="candidate_posts.ndjson.gz from step 03")
-    ap.add_argument("--lexicon", default="lexicon.txt", help="bracketed-section lexicon (see lexicon_io.py)")
-    ap.add_argument("--out", default="shortlist.tsv")
-    ap.add_argument("--per-topic", type=int, default=60, help="max users kept per topic bucket")
+    ap.add_argument("--lexicon", default=DEFAULT_LEXICON, help="bracketed-section lexicon (see lexicon_io.py)")
+    ap.add_argument("--out", default=DEFAULT_OUT, help="shortlist TSV to write")
+    ap.add_argument("--per-topic", type=int, default=DEFAULT_PER_TOPIC, help="max users kept per topic bucket")
     a = ap.parse_args()
 
     topic_lex, signal_lex = lexicon_io.load_topic_and_signal(a.lexicon)

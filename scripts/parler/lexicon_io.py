@@ -4,6 +4,15 @@ Shared parser for lexicon.txt's bracketed-section format. Used by:
   - 04_classify_select.py     (needs: topic buckets + signal buckets, kept separate, weighted)
   - validate_lexicon.py       (needs: structural + content warnings)
 
+NOT A CLI SCRIPT -- this is a library module, imported by the scripts above, not run
+directly (no argparse, no __main__ block). Typical usage from another script:
+
+  import lexicon_io
+  terms = lexicon_io.load_flat_terms("lexicon.txt")                    # Stage 1's need
+  topics, signals = lexicon_io.load_topic_and_signal("lexicon.txt")    # Stage 4's need
+  weights = lexicon_io.compute_term_weights(topics)                   # @weight resolution
+  parsed = lexicon_io.load_parsed("lexicon.txt")                      # validate_lexicon.py's need
+
 FORMAT
 ------
   # comment lines start with '#', ignored
