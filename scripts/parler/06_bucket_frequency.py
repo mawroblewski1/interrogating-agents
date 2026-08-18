@@ -13,14 +13,28 @@ across topic buckets is split the same way here as it is during classification -
 the leaderboard numbers stay consistent with how Stage 4 actually scores users.
 
 NORMALIZATION: raw weighted-hit totals favor buckets with more lexicon terms, regardless
-of real prevalence in the data -- a bucket with 20 terms will tend to rack up more hits
-than a 3-term bucket even if the 3-term bucket is, per-term, discussed far more often.
-To correct for this, each bucket's EFFECTIVE TERM COUNT is computed: a term worth 1.0 in
-a bucket (unshared, or no @weight split) counts fully; a term split via @weight or an
-even auto-split across multiple buckets contributes only its fractional share to each
-bucket's effective count. hits_per_effective_term = weighted_hits / effective_term_count
-is the fairer cross-bucket comparison; hits_per_raw_term (dividing by plain unique-term
-count instead) is included too for reference, ignoring the weight split entirely.
+of real prevalence in the data. Two different corrections are tracked, answering two
+different questions:
+
+  - n_terms_effective / hits_per_effective_term: corrects for @weight splitting --
+    a term worth 1.0 in a bucket (unshared, or no split) counts fully; a term split
+    across multiple buckets contributes only its fractional share. This is a property
+    of the LEXICON's structure, independent of the data.
+
+  - n_terms_found / hits_per_found_term: corrects for terms that never actually
+    appeared in the scanned data at all. A bucket can have 20 lexicon terms but only 6
+    of them ever match a single post -- dividing by 20 (raw) or its effective
+    equivalent dilutes "hits per term" with 14 terms that are pure dead weight in THIS
+    dataset. hits_per_found_term divides only by terms that appeared at least once, so
+    it answers "of the terms that actually show up, how often do they show up" rather
+    than being penalized by an unused portion of the lexicon. This is a property of
+    the DATA, not the lexicon.
+
+hits_per_raw_term (dividing by plain unique-term count, ignoring both corrections) is
+kept too for reference.
+
+The console output also prints, per bucket, how many of its terms were ever found:
+  anti_vaccine: 5/7 terms present in scanned data
 
 OUTPUT FORMAT: plain TSV, directly readable in both R and Python with no extra tooling
 required -- e.g. read.delim("bucket_counts.tsv") in base R, or
@@ -35,7 +49,7 @@ splitting is implemented, only topic-topic, matching Stage 4's scope).
 Example:
   python3 06_bucket_frequency.py --input "D:\\Parler" --lexicon lexicon.txt \
       --out bucket_counts.tsv --chart bucket_leaderboard.png --limit 500000
-  python3 06_bucket_frequency.py --input "D:\\Parler" --chart-metric hits_per_effective_term ...
+  python3 06_bucket_frequency.py --input "D:\\Parler" --chart-metric hits_per_found_term ...
 """
 import argparse
 from collections import defaultdict
@@ -46,7 +60,8 @@ import lexicon_io
 DEFAULT_LEXICON = "lexicon.txt"
 DEFAULT_OUT = "bucket_counts.tsv"
 DEFAULT_CHART = ""                    # empty string = skip chart generation entirely
-DEFAULT_CHART_METRIC = "weighted_hits"  # one of: weighted_hits, hits_per_raw_term, hits_per_effective_term
+DEFAULT_CHART_METRIC = "weighted_hits"  # one of: weighted_hits, hits_per_raw_term,
+                                         # hits_per_effective_term, hits_per_found_term
 DEFAULT_MIN_BODY_CHARS = 15
 DEFAULT_LIMIT = 0                     # stop after N records scanned; 0 = no limit
 
@@ -74,7 +89,8 @@ def main():
     ap.add_argument("--out", default=DEFAULT_OUT, help="TSV to write bucket counts/stats to")
     ap.add_argument("--chart", default=DEFAULT_CHART, help="if set, write a leaderboard bar chart PNG here")
     ap.add_argument("--chart-metric", default=DEFAULT_CHART_METRIC,
-                     choices=["weighted_hits", "hits_per_raw_term", "hits_per_effective_term"],
+                     choices=["weighted_hits", "hits_per_raw_term", "hits_per_effective_term",
+                              "hits_per_found_term"],
                      help="which column drives the chart's bar ordering/values")
     ap.add_argument("--min-body-chars", type=int, default=DEFAULT_MIN_BODY_CHARS,
                      help="minimum post length to be scanned for keyword hits")
@@ -88,6 +104,10 @@ def main():
 
     topic_counts: dict[str, float] = defaultdict(float)
     signal_counts: dict[str, float] = defaultdict(float)
+    # which distinct terms actually matched at least once, per bucket -- a DATA property,
+    # separate from n_terms_raw/n_terms_effective which are LEXICON properties
+    topic_terms_found: dict[str, set] = defaultdict(set)
+    signal_terms_found: dict[str, set] = defaultdict(set)
     n_posts_matched = 0
 
     paths = parler_io.find_inputs(a.input)
@@ -105,12 +125,14 @@ def main():
                     c = text.count(k)
                     if c:
                         topic_counts[bucket] += c * topic_weights.get(k, {}).get(bucket, 1.0)
+                        topic_terms_found[bucket].add(k)
                         matched_this_post = True
             for bucket, kws in signal_lex.items():
                 for k, _w in kws:
                     c = text.count(k)
                     if c:
                         signal_counts[bucket] += c
+                        signal_terms_found[bucket].add(k)
                         matched_this_post = True
             if matched_this_post:
                 n_posts_matched += 1
@@ -122,27 +144,41 @@ def main():
 
     print(f"[info] {n:,} records scanned, {n_posts_matched:,} post(s) matched at least one term")
 
-    def build_rows(bucket_lex, counts, stats):
+    print("[info] terms present in scanned data, per bucket:")
+    for bucket in topic_lex:
+        n_raw, _ = topic_stats[bucket]
+        n_found = len(topic_terms_found.get(bucket, ()))
+        print(f"       {bucket}: {n_found}/{n_raw} terms present")
+    for bucket in signal_lex:
+        n_raw, _ = signal_stats[bucket]
+        n_found = len(signal_terms_found.get(bucket, ()))
+        print(f"       signal:{bucket}: {n_found}/{n_raw} terms present")
+
+    def build_rows(bucket_lex, counts, stats, terms_found):
         rows = []
         for bucket in bucket_lex:
             n_raw, n_eff = stats[bucket]
+            n_found = len(terms_found.get(bucket, ()))
             hits = counts.get(bucket, 0.0)
             hits_per_raw = (hits / n_raw) if n_raw else 0.0
             hits_per_eff = (hits / n_eff) if n_eff else 0.0
-            rows.append((bucket, n_raw, n_eff, hits, hits_per_raw, hits_per_eff))
-        rows.sort(key=lambda r: r[3], reverse=True)  # default sort: raw weighted_hits desc
+            hits_per_found = (hits / n_found) if n_found else 0.0
+            rows.append((bucket, n_raw, n_eff, n_found, hits, hits_per_raw, hits_per_eff, hits_per_found))
+        rows.sort(key=lambda r: r[4], reverse=True)  # default sort: raw weighted_hits desc
         return rows
 
-    topic_rows = build_rows(topic_lex, topic_counts, topic_stats)
-    signal_rows = build_rows(signal_lex, signal_counts, signal_stats)
+    topic_rows = build_rows(topic_lex, topic_counts, topic_stats, topic_terms_found)
+    signal_rows = build_rows(signal_lex, signal_counts, signal_stats, signal_terms_found)
 
     with open(a.out, "w", encoding="utf-8") as f:
-        f.write("bucket_type\tbucket\tn_terms_raw\tn_terms_effective\tweighted_hits\t"
-                 "hits_per_raw_term\thits_per_effective_term\n")
-        for bucket, n_raw, n_eff, hits, hpr, hpe in topic_rows:
-            f.write(f"topic\t{bucket}\t{n_raw}\t{n_eff:.3f}\t{hits:.2f}\t{hpr:.3f}\t{hpe:.3f}\n")
-        for bucket, n_raw, n_eff, hits, hpr, hpe in signal_rows:
-            f.write(f"signal\t{bucket}\t{n_raw}\t{n_eff:.3f}\t{hits:.2f}\t{hpr:.3f}\t{hpe:.3f}\n")
+        f.write("bucket_type\tbucket\tn_terms_raw\tn_terms_effective\tn_terms_found\tweighted_hits\t"
+                 "hits_per_raw_term\thits_per_effective_term\thits_per_found_term\n")
+        for bucket, n_raw, n_eff, n_found, hits, hpr, hpe, hpf in topic_rows:
+            f.write(f"topic\t{bucket}\t{n_raw}\t{n_eff:.3f}\t{n_found}\t{hits:.2f}\t"
+                     f"{hpr:.3f}\t{hpe:.3f}\t{hpf:.3f}\n")
+        for bucket, n_raw, n_eff, n_found, hits, hpr, hpe, hpf in signal_rows:
+            f.write(f"signal\t{bucket}\t{n_raw}\t{n_eff:.3f}\t{n_found}\t{hits:.2f}\t"
+                     f"{hpr:.3f}\t{hpe:.3f}\t{hpf:.3f}\n")
 
     print(f"[done] {a.out}  (readable directly in R via read.delim(), or pandas via "
           f"read_csv(sep='\\t'))")
@@ -152,11 +188,13 @@ def main():
         print(f"[out] {a.chart}")
 
 
-_METRIC_COL = {"weighted_hits": 3, "hits_per_raw_term": 4, "hits_per_effective_term": 5}
+_METRIC_COL = {"weighted_hits": 4, "hits_per_raw_term": 5, "hits_per_effective_term": 6,
+               "hits_per_found_term": 7}
 _METRIC_LABEL = {
     "weighted_hits": "Weighted keyword hits",
     "hits_per_raw_term": "Weighted hits per lexicon term (raw count)",
     "hits_per_effective_term": "Weighted hits per lexicon term (effective, @weight-adjusted)",
+    "hits_per_found_term": "Weighted hits per term actually found in the data",
 }
 
 

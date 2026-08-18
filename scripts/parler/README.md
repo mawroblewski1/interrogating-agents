@@ -230,26 +230,54 @@ python3 06_bucket_frequency.py --input "/path/to/parler_folder" --lexicon lexico
     --out bucket_counts.tsv --chart leaderboard_raw.png --limit 500000
 ```
 
-`bucket_counts.tsv` is plain TSV, directly readable in R (`read.delim(...)`) or pandas
-(`read_csv(..., sep="\t")`) with no conversion step. It includes both raw weighted hit
-counts and counts normalized by each bucket's `@weight`-adjusted effective term count
-(`n_terms_effective`, `hits_per_effective_term`), so a bucket padded with more lexicon
-terms isn't automatically over-represented.
+Alongside the TSV, it also prints how many of each bucket's terms ever actually matched
+anything in the scanned data:
 
-The chart shows exactly one of those metrics per run — `--chart-metric` picks which:
+```
+[info] terms present in scanned data, per bucket:
+       anti_vaccine: 2/7 terms present
+       anti_government: 5/5 terms present
+       antisemitic: 0/5 terms present
+```
+
+`bucket_counts.tsv` is plain TSV, directly readable in R (`read.delim(...)`) or pandas
+(`read_csv(..., sep="\t")`) with no conversion step. Raw weighted hit counts are
+normalized two different ways, correcting for two different things:
+
+- `n_terms_effective` / `hits_per_effective_term` — corrects for `@weight` splitting.
+  A property of the **lexicon's structure**: a term split across multiple buckets
+  contributes only its fractional share to each bucket's effective term count, so a
+  shared term doesn't inflate either bucket's average.
+- `n_terms_found` / `hits_per_found_term` — corrects for lexicon terms that never
+  actually appeared anywhere in the scanned data. A property of the **dataset**: a
+  bucket can have 20 lexicon terms but only 6 that ever match a real post; dividing by
+  20 dilutes the average with 14 terms that are pure dead weight in this particular
+  dataset, while dividing by 6 answers "of the terms that do show up, how often do
+  they show up."
+
+Both corrections are independent and kept side by side (along with the uncorrected
+`hits_per_raw_term`) rather than one replacing the other, since they answer different
+questions and can disagree — a bucket can be well-normalized by `@weight` but still
+mostly dead weight in your specific dataset, or vice versa.
+
+The chart shows exactly one metric per run — `--chart-metric` picks which:
 
 ```bash
 # raw hit counts (default) -- can make bigger buckets look over-represented
 python3 06_bucket_frequency.py --input "..." --chart leaderboard_raw.png \
     --chart-metric weighted_hits
 
-# normalized by @weight-adjusted effective term count -- the fairer cross-bucket comparison
+# normalized by @weight-adjusted effective term count -- lexicon-structure correction
 python3 06_bucket_frequency.py --input "..." --chart leaderboard_normalized.png \
     --chart-metric hits_per_effective_term
+
+# normalized by terms that actually appeared in the data -- dataset-presence correction
+python3 06_bucket_frequency.py --input "..." --chart leaderboard_found.png \
+    --chart-metric hits_per_found_term
 ```
 
-Run it twice with different `--chart`/`--chart-metric` values (as above) to get both a
-raw and a normalized chart side by side — each invocation writes one PNG.
+Run it multiple times with different `--chart`/`--chart-metric` values (as above) to
+get each variant side by side — each invocation writes one PNG.
 
 ## Testing
 
