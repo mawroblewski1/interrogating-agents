@@ -1,5 +1,5 @@
 id: antivax_school_mandate
-question: "Should childhood vaccination be required for school attendance?"
+question: "Should COVID-19 vaccination be added to the list of vaccines required for school attendance?"
 source: >
   Arguments drawn strictly from the following fetched sources:
   (1) ScienceAlert / Science As Fact (2018): "Here's How You Can Debunk 7 Most
@@ -17,7 +17,38 @@ source: >
   (en.wikipedia.org/wiki/Vaccine_misinformation)
   Attitude roots for suspect_values drawn from:
   (6) Fasce, A. et al. (2023). A taxonomy of anti-vaccination arguments.
-  Nature Human Behaviour 7, 1462-1480.
+  Nature Human Behaviour 7, 1462-1480. (Includes a "Fear and phobias" root
+  distinguishing procedural fear, e.g. trypanophobia, from fear of side
+  effects.)
+  (7) Congregation for the Doctrine of the Faith, Vatican (21 December 2020):
+  "Note on the morality of using some anti-Covid-19 vaccines"
+  (vatican.va/roman_curia/congregations/cfaith/documents/rc_con_cfaith_doc_20201221_nota-vaccini-anticovid_en.html)
+  (8) PBS NewsHour / Crary, D., Associated Press (10 Jan 2021): "Anti-abortion
+  faith leaders support use of COVID-19 vaccines"
+  (pbs.org/newshour/health/anti-abortion-faith-leaders-support-use-of-covid-19-vaccines)
+  (9) PBS NewsHour / Baldor, L.C., Associated Press (9 June 2022): "Novavax
+  vaccine may be an option for service members who sought religious exemptions"
+  (pbs.org/newshour/nation/novavax-vaccine-may-be-an-option-for-service-members-who-sought-religious-exemptions)
+  (10) Gorski, D., Science-Based Medicine (25 July 2022): "Novavax: It's the
+  vaccine that scares antivaxxers, not moth DNA or any ingredient in any
+  vaccine"
+  (sciencebasedmedicine.org/novavax-its-the-vaccine-that-scares-antivaxxers-not-any-ingredient/)
+  (11) Fiqh Council of North America (2021): "FCNA Statement about COVID
+  Vaccines" (fiqhcouncil.org/fcna-statement-about-covid-vaccines/)
+  (12) Office of Grand Ayatollah Sistani, via Shafaqna (2021): "The Grand
+  Ayatollah Sistani's Office Answers Questions on Corona Vaccine"
+  (india.shafaqna.com/EN/the-grand-ayatollah-sistanis-office-answers-questions-on-corona-vaccine-it-is-worth-trusting-specialized-experienced-doctors/)
+  (13) Aga Khan Health Board USA: "COVID-19" (akhb.theismailiusa.org/covid-19/)
+  (14) Orthodox Union & Rabbinical Council of America (15 December 2020):
+  "COVID-19 Vaccine Guidance" (rabbis.org/covid-19-vaccine-guidance/)
+
+  Note on scope: this card is deliberately COVID-inclusive rather than
+  restricted to the routine school-entry schedule (MMR/DTaP/etc.), since
+  COVID-19 vaccination is the most partisan-polarized vaccine topic and a
+  documented driver of "spillover" distrust into routine childhood vaccine
+  attitudes (Jones, D.R., "The Evolution and Polarization of Public Opinion
+  on Vaccines"; Motta, M. (2023), npj Vaccines, "Is partisan conflict over
+  COVID-19 vaccination eroding support for childhood vaccine mandates?").
 
 n_turns: 6
 n_quads: 5
@@ -25,10 +56,18 @@ suspect_information: aligned_only
 
 supporters:
   summary: >
-    The scientific and medical consensus on vaccine safety and efficacy is
-    clear and unambiguous. Childhood vaccines are among the most rigorously
-    tested and effective public health interventions in history, protecting
-    not only vaccinated individuals but also those who cannot be vaccinated.
+    The scientific and medical consensus on COVID-19 vaccine safety and
+    efficacy is clear and unambiguous, and childhood vaccines more broadly
+    remain among the most rigorously tested and effective public health
+    interventions in history, protecting not only vaccinated individuals
+    but also those who cannot be vaccinated. Beyond safety and efficacy
+    data, religious authorities across Catholic, Protestant, Sunni,
+    Twelver Shia, Nizari Ismaili, and Jewish traditions have independently
+    concluded that vaccination is permissible or, in several cases,
+    obligatory, directly addressing ingredient- and technology-specific
+    objections raised within their communities. Novavax offers a
+    practical alternative for those whose objection is narrowly about
+    fetal cell lines or mRNA technology specifically.
   key_arguments:
 
     # On ingredients
@@ -146,11 +185,8 @@ supporters:
     - "Herd immunity is when enough of the population is vaccinated that a virus
       cannot spread enough to maintain a foothold. When this occurs the infected
       population steadily decreases until the virus eventually dies out, as
-      measles and polio largely have. Measles vaccine compliance dropped by 3
-      percent from 2019 to 2024 and rates in the US dropped below the herd
-      immunity threshold of 95 percent during the 2023-2024 academic year.
-      In 2019, measles cases increased by thirty percent worldwide. In 2024 there
-      were 10.3 million global measles cases. [Sources 2, 5]"
+      measles and polio largely have. In 2019, measles cases increased by thirty
+      percent worldwide. [Sources 2, 5]"
 
     - "Vaccination does not just protect the individual; it also protects those
       who cannot be vaccinated — newborns, the immunocompromised, cancer patients
@@ -177,23 +213,112 @@ supporters:
       only 2 to 3 percent of total pharmaceutical industry sales — they are not
       the profit center anti-vaccine narratives suggest. [Sources 1, 4]"
 
-    # On the backfire of information-only interventions
-    - "Research shows that providing more information alone is often ineffective
-      in changing a vaccine-hesitant person's views and may in fact have the
-      opposite of the intended effect, reinforcing misconceptions. Communication
-      strategies that are recommended instead include establishing honest and
-      respectful dialogue, acknowledging risks while balancing them against disease
-      risks, maintaining a conversational tone rather than lecturing, and not
-      spending excessive time debunking specific myths as this may strengthen
-      them. [Sources 4, 5]"
+    # On religious objections: Catholic teaching (Sources 7, 8)
+    - "The Vatican's Congregation for the Doctrine of the Faith directly
+      addressed this objection in a December 2020 note, examined and
+      approved for publication by Pope Francis. The cell lines in question
+      trace back to two abortions that occurred decades ago and were used
+      only in research and production, not as an ongoing ingredient. The
+      note concludes that receiving such vaccines involves only remote
+      passive cooperation with the original wrong, not formal cooperation
+      with or endorsement of abortion, and states it is morally acceptable
+      to receive these vaccines when ethically irreproachable alternatives
+      are unavailable. It also affirms vaccination is not a strict moral
+      obligation but is recommended to protect the vulnerable and serve the
+      common good, and calls on manufacturers and governments to develop
+      ethically-sourced alternatives. The U.S. Conference of Catholic
+      Bishops separately reached the same conclusion, describing
+      vaccination as an act of charity toward the community despite a
+      remote connection to compromised cell lines. [Sources 7, 8]"
+
+    # On religious objections: Protestant/evangelical leadership (Source 8)
+    - "Unlike Catholicism, Protestantism has no single magisterial body, so
+      there is no equivalent unified doctrinal statement; Protestant
+      leaders have reached similar conclusions independently. Southern
+      Baptist megachurch pastor Robert Jeffress called the vaccine a 'gift
+      from God' and said there is no legitimate faith-based reason to
+      refuse it. Al Mohler, president of the Southern Baptist Theological
+      Seminary, publicly stated he would take the vaccine for his own
+      health and that of others. Russell Moore, then head of the Southern
+      Baptist Convention's public policy arm, said he could not identify a
+      single evangelical pastor advising against vaccination, framing
+      anti-vaccine sentiment among congregants as originating from
+      conspiracy theories rather than church teaching. [Source 8]"
+
+    # On fetal cell line and mRNA-technology concerns: Novavax (Sources 9, 10)
+    - "For those whose primary objection is the remote connection to fetal
+      cell lines rather than vaccination in general, Novavax states that no
+      human fetal-derived cell lines or tissue were used in the
+      development, manufacture, or production of its vaccine, unlike
+      Pfizer, Moderna, or Johnson & Johnson. Instead, Novavax uses a
+      decades-old recombinant protein technique: the gene for the
+      SARS-CoV-2 spike protein is inserted into a baculovirus, which
+      infects moth cells that manufacture the spike protein, which is then
+      extracted and purified as the vaccine's antigen. This is the same
+      general class of technology long used in flu, HPV, and hepatitis B
+      vaccines, not the mRNA platform some are separately uneasy about. At
+      least 175 active-duty and reserve U.S. service members sought out
+      Novavax specifically to resolve religious objections, some traveling
+      overseas at their own expense before it was authorized domestically.
+      A representative of a legal group representing religious objectors
+      noted this option works for those whose objection is specifically
+      about abortion, though not for those with broader anti-vaccine views
+      for whom the fetal-cell issue is secondary. [Sources 9, 10]"
+
+    # On religious objections: Islamic authorities, Sunni/Shia/Ismaili (Sources 11, 12, 13)
+    - "Islamic religious authority is not unified, so objections and
+      responses vary by branch and community. The Fiqh Council of North
+      America, the primary Sunni juristic body for the U.S. and Canada,
+      formally reviewed the Pfizer and Moderna vaccines with medical
+      experts and declared them halal, confirming their ingredients are
+      not derived from pork, aborted fetuses, or stem cells, and grounding
+      permissibility in the Qur'anic instruction to consult those with
+      expertise. The Grand Ayatollah Sistani, the most widely-followed
+      marja' for Twelver Shia Muslims (the largest Shia branch), was asked
+      directly whether porcine gelatin used to stabilize some vaccines
+      would be religiously problematic; his office's answer held there
+      are no religious problems in any case, and separately affirmed
+      relying on qualified, experienced doctors' risk-benefit judgment.
+      For Nizari Ismaili Muslims, whose religious authority runs through a
+      living Imam rather than a scholarly council, the Aga Khan Health
+      Board USA -- operating under the Ismaili Imamat's health
+      institutions -- provided direct public health guidance encouraging
+      the community to stay up to date on COVID-19 vaccination. [Sources
+      11, 12, 13]"
+
+    # On religious objections: Jewish authorities, concentrated in Orthodox/
+    # Hasidic hesitancy (Source 14)
+    - "The Orthodox Union and Rabbinical Council of America issued formal
+      COVID-19 vaccine guidance based on the rulings of leading poskim
+      (halachic decisors), including Rabbi Hershel Schachter and Rabbi
+      Mordechai Willig. It grounds the ruling in two halachic principles:
+      the general obligation to care for one's own health and protect
+      others from harm, and the directive to defer to medical expert
+      consensus on appropriate treatment and prevention. The guidance
+      directly addresses the same anxieties raised elsewhere in this card
+      about mRNA technology and the speed of vaccine development, stating
+      that the acceleration was achieved through funding, partnerships,
+      and removal of bureaucratic delay rather than reduced scientific
+      review or safety standards. It concludes that the Torah obligation
+      to preserve life requires vaccination against COVID-19 once
+      available, in consultation with one's personal healthcare provider.
+      Reform (Central Conference of American Rabbis) and Conservative
+      (Rabbinical Assembly Committee on Jewish Law and Standards)
+      authorities independently reached the same conclusion, though
+      hesitancy in those communities was not comparably documented.
+      [Source 14]"
 
 opponents:
   summary: >
-    A range of concerns about specific ingredients, long-term side effects,
-    institutional trust, and individual rights lead many Americans and Europeans
-    to oppose childhood vaccine mandates. Note: the following arguments represent
-    claims documented in the sources as circulating in anti-vaccine discourse;
-    many are factually contested or false as documented above.
+    A range of concerns about specific ingredients, mRNA technology,
+    institutional trust, individual rights, and religious permissibility
+    lead many Americans to oppose COVID-19 vaccination and its addition to
+    school mandates. Religious objections are split by tradition
+    (Christian, Muslim, Jewish) rather than treated as one bloc, and
+    specific misinformation has also targeted Novavax as an alternative.
+    Note: the following arguments represent claims documented in the
+    sources as circulating in anti-vaccine discourse; many are factually
+    contested or false as documented above.
   key_arguments:
 
     # Specific ingredient and safety claims (Sources 4, 5)
@@ -261,13 +386,6 @@ opponents:
       proves they know vaccines are dangerous. [Claim documented in Sources
       4, 5]"
 
-    - "The CDC and NIH have cancelled funding for vaccine hesitancy research
-      and the CDC website now says vaccines may be linked to autism — even
-      governments are admitting the truth they suppressed for years. Doctors
-      and scientists who raise safety concerns are silenced and deplatformed.
-      [Claim documented in Source 5; relates to November 2025 CDC website
-      changes under RFK Jr.]"
-
     - "Russia, foreign governments, and the CIA have run fake vaccination
       programs — the CIA ran a fake vaccine clinic in Pakistan to locate Osama
       bin Laden, causing attacks on vaccination workers and polio persistence.
@@ -321,20 +439,40 @@ opponents:
     - "Some COVID-19 vaccines contain porcine gelatin as a stabilizer, making
       them haram under Islamic law. Muslim communities have raised concerns
       about the permissibility of vaccination when animal-derived ingredients
-      are present. [Claim documented in Source 4, 5]"
+      are present. [Claim documented in Sources 4, 5]"
 
     - "Vaccines containing porcine or other non-kosher animal-derived
       ingredients raise concerns for observant Jewish communities about their
-      permissibility under Jewish dietary law. [Claim documented in Sources 4]"
+      permissibility under Jewish dietary law. [Claim documented in Source 4]"
 
-    # Contemporary political framing (Source 4)
-    - "Around 2014, anti-vaccine rhetoric shifted from scientific and medical
-      arguments to political ones — what has been called a 'don't-tell-me-what-
-      to-do freedom movement,' linked to Tea Party and Second Amendment activism.
-      The anti-vaccine movement has repositioned itself as opposition to mandates
-      and government overreach. A May 2022 New York Times report noted that a
-      wave of parents has been radicalized by COVID-era misinformation to reject
-      ordinary childhood immunizations. [Documented in Source 4]"
+    # Novavax-specific claims (Source 10)
+    - "Novavax is grown in moth cells using a baculovirus system, meaning
+      the vaccine contains 'moth DNA' that will contaminate your body.
+      Given what moths carry and cause in nature, injecting cells derived
+      from them is unnatural and its effects are unknown. This claim was
+      spread in detail by Dr. Jane Ruby, host of a show on the Stew Peters
+      Network, who called Novavax a 'deadly moth DNA spike protein' and
+      warned it could produce genetic 'freak manifestations' in the
+      offspring of those vaccinated. [Claim documented in Source 10]"
+
+    - "Novavax's Matrix-M adjuvant is a nanoparticle derived from tree bark
+      that has potent, largely untested immunostimulatory effects capable
+      of causing autoimmune disorders such as antiphospholipid syndrome,
+      including blood clots and pregnancy loss. Like the lipid
+      nanoparticles in mRNA vaccines, this 'tree bark toxin' nanoparticle
+      poses the same undisclosed risks under a different name. This claim
+      was published by Robert F. Kennedy Jr.'s Children's Health Defense,
+      which cited legitimate research on Matrix-M's immunostimulatory
+      properties out of context to suggest danger. [Claim documented in
+      Source 10]"
+
+    - "Novavax is secretly the same as mRNA vaccines because the baculovirus
+      used to grow it is itself transcribed into mRNA inside moth cells
+      before the spike protein is extracted, so calling it a traditional
+      'protein vaccine' rather than gene-based technology is misleading.
+      This claim was also advanced by Dr. Jane Ruby, using an illustration
+      of the production process to argue Novavax is functionally an mRNA
+      vaccine in disguise. [Claim documented in Source 10]"
 
 suspect_values:
   for:
@@ -350,7 +488,12 @@ suspect_values:
     - conspiratorial ideation (Big Pharma, government cover-up, microchips,
       depopulation agenda, regulatory capture)
     - reactance and autonomy (opposition to mandates, bodily autonomy, parental
-      rights, Tea Party and libertarian crossover framing)
+      rights, Tea Party and libertarian crossover framing; documented shift
+      around 2014 from scientific/medical anti-vaccine rhetoric toward this
+      explicitly political "don't-tell-me-what-to-do freedom movement"
+      framing, further accelerated by COVID-era radicalization of parents
+      toward rejecting ordinary childhood immunizations per a May 2022 New
+      York Times report) [Source 4]
     - institutional distrust (FDA/CDC/WHO captured by pharma, Wakefield
       martyrdom narrative, CIA vaccine cover-ups, RFK Jr. framing)
     - alternative health beliefs (natural immunity superior, vitamin D and zinc,
@@ -367,6 +510,20 @@ suspect_values:
       freedom movement identity, community belonging)
     - social influence (Russian troll amplification of anti-vax content on
       Twitter documented; anti-vax Facebook advertising targeting young mothers)
+    - fear and phobias (Fasce et al. root distinguishing fear of the
+      vaccination procedure itself -- trypanophobia, needle-related anxiety
+      or vasovagal syncope -- from fear of side effects such as autism,
+      cancer, or ingredient toxicity; the latter overlaps with safety
+      concerns above, but procedural fear is a distinct driver) [Source 6]
+
+  notes: >
+    Interrogator-facing, not persona-specific: research indicates providing
+    more information alone is often ineffective at changing a vaccine-hesitant
+    person's views and may backfire, reinforcing existing misconceptions.
+    Recommended approach instead: honest and respectful dialogue, acknowledging
+    risks while balancing them against disease risks, a conversational rather
+    than lecturing tone, and avoiding excessive time spent debunking specific
+    myths, which may strengthen them. [Sources 4, 5]
 
 persona_card_hints:
   # Suggested persona profiles for suspect initialization
@@ -409,3 +566,64 @@ persona_card_hints:
       quercetin, or nosodes as alternatives. Frame is categorical rather than
       evidential — vaccines are wrong regardless of data. Requires engaging
       the underlying nature and purity values rather than specific safety claims.
+
+  - label: religious_objector
+    dominant_roots: [religiosity, moral_objections]
+    description: >
+      Objection is rooted in a specific, resolvable moral concern about
+      fetal cell lines or other ingredients used in vaccine research and
+      production, split by tradition. Catholic objectors can be engaged
+      with the CDF's 2020 note (approved by Pope Francis) concluding
+      remote cooperation with the original wrong does not equate to formal
+      cooperation with abortion. Protestant/evangelical objectors have no
+      equivalent single authority but can be engaged with the public
+      positions of figures like Robert Jeffress and Al Mohler, who found
+      no doctrinal basis for refusal. Sunni objectors can be engaged with
+      the Fiqh Council of North America's ruling confirming no
+      haram-derived ingredients; Twelver Shia objectors with the Grand
+      Ayatollah Sistani's ruling that no religious problem exists even if
+      such ingredients were present; Nizari Ismaili objectors with Aga
+      Khan Health Board USA guidance. Novavax, which used no fetal-derived
+      cell lines, is a strong opening for the fetal-cell-specific Christian
+      persona -- but only when the underlying objection is genuinely and
+      narrowly about fetal-cell lineage. If the persona's resistance is
+      more identity- or ideology-driven than doctrinal, offering Novavax
+      will not resolve it; documented antivax reaction to Novavax shows
+      objections simply retarget to its other components (e.g. moth-cell
+      production, the Matrix-M adjuvant) rather than resolving, so the
+      interrogator should probe which case this is before leaning on
+      Novavax as a solution.
+
+  - label: hasidic_insular
+    dominant_roots: [social_influence, mistrust_of_science]
+    description: >
+      Hesitancy concentrated specifically in Hasidic/Charedi ultra-Orthodox
+      communities, not Judaism broadly -- survey data shows COVID-19
+      vaccine acceptance as low as 12-31% in these communities versus
+      93-95% among Modern Orthodox and Non-Orthodox Jews. This is not a
+      doctrinal objection: major poskim across Orthodox, Conservative, and
+      Reform Judaism are uniformly supportive of vaccination, grounded in
+      the halachic principle of preserving life. Resistance instead
+      reflects the tight-knit, insular structure of these communities,
+      which trust their own physicians and rabbinic leaders over outside
+      or state authority. The interrogation approach should route through
+      in-community authority (citing OU/RCA poskim by name) rather than
+      general scientific consensus, which this persona is likely to
+      receive as an outside imposition regardless of its accuracy.
+
+  - label: needle_averse
+    dominant_roots: [fear_and_phobias]
+    description: >
+      Objection is procedural rather than ideological: trypanophobia or
+      needle-related anxiety, including vasovagal responses, drives
+      avoidance independent of views on vaccine safety or efficacy. Fasce
+      et al. distinguish this from fear of side effects, which is a
+      separate fear-and-phobias subtype already covered by the
+      safety_concerns root. May intellectually agree vaccines are safe and
+      effective while still avoiding them. No currently available U.S.
+      alternative-delivery option exists to point to -- needle-free COVID
+      vaccines are approved only in India and China. The interrogation
+      approach cannot rely on offering an alternative and must instead
+      address the anxiety response itself through rapport-building rather
+      than evidence-based argumentation, which is not the actual source of
+      resistance.
