@@ -167,11 +167,19 @@ def parse_lexicon_text(text: str) -> ParsedLexicon:
                 f"term '{tl}' appears in multiple sections ({locs}) — its weight will be "
                 f"split across those buckets (see compute_term_weights)"))
         else:
-            # same section, repeated (possibly different case) -> just redundant
+            # same section, repeated (possibly different case) -> this is NOT harmless:
+            # score_user() and 06_bucket_frequency.py both sum over every entry in a
+            # bucket's term list, so a term listed twice in one section is counted
+            # twice per real-world occurrence, even though weight resolution treats
+            # it as a single term worth 1.0 -- the runtime sum doesn't know that.
             locs = ", ".join(f"L{ln}" for _, ln, _, _ in occurrences)
             result.issues.append(LexiconIssue(
                 "warn", occurrences[0][1],
-                f"term '{tl}' repeated within the same section ({locs}) — redundant, no effect"))
+                f"term '{tl}' repeated within the same section ({locs}) — this DOUBLES "
+                f"its effective weight during scoring (each line is summed independently), "
+                f"it is NOT harmless. Remove the extra line(s); if you want this term to "
+                f"count more than once on purpose, use a single line with an explicit "
+                f"@weight > 1.0 instead."))
 
     return result
 

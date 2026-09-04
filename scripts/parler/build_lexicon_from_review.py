@@ -55,16 +55,33 @@ def main():
     # bucket_name -> [term, ...] to append; bucket_name is the RAW section header text
     # (e.g. "anti_vaccine" or "signal:trollish")
     to_append: dict[str, list[str]] = {}
-    n_skipped_dupe = 0
+    # tracks (term, bucket) pairs already queued THIS run, so two draft rows for the same
+    # term+bucket (e.g. from concatenating two separately-classified batches before review)
+    # don't both get added -- that would silently double the term's effective weight during
+    # scoring. Keyed on (term, bucket), NOT term alone, so the same term can still be
+    # legitimately queued into two DIFFERENT buckets in one run (intentional multi-bucket
+    # sharing, same as @weight-splitting an existing term).
+    queued_this_run: set[tuple[str, str]] = set()
+    n_skipped_existing = 0
+    n_skipped_dupe_in_draft = 0
     for term, label in approved:
-        if term.lower() in existing_terms_lower:
-            n_skipped_dupe += 1
+        term_lower = term.lower()
+        if term_lower in existing_terms_lower:
+            n_skipped_existing += 1
             continue
+        key = (term_lower, label)
+        if key in queued_this_run:
+            n_skipped_dupe_in_draft += 1
+            continue
+        queued_this_run.add(key)
         section = label  # label already matches the section-header naming convention
         to_append.setdefault(section, []).append(term)
 
-    if n_skipped_dupe:
-        print(f"[info] {n_skipped_dupe} term(s) already present in {a.lexicon}, skipped")
+    if n_skipped_existing:
+        print(f"[info] {n_skipped_existing} term(s) already present in {a.lexicon}, skipped")
+    if n_skipped_dupe_in_draft:
+        print(f"[info] {n_skipped_dupe_in_draft} duplicate row(s) within this draft (same "
+              f"term, same bucket) skipped -- only the first was kept")
 
     if not to_append:
         print("[done] nothing new to add")
