@@ -22,13 +22,7 @@ different questions:
     of the LEXICON's structure, independent of the data.
 
   - n_terms_found / hits_per_found_term: corrects for terms that never actually
-    appeared in the scanned data at all. A bucket can have 20 lexicon terms but only 6
-    of them ever match a single post -- dividing by 20 (raw) or its effective
-    equivalent dilutes "hits per term" with 14 terms that are pure dead weight in THIS
-    dataset. hits_per_found_term divides only by terms that appeared at least once, so
-    it answers "of the terms that actually show up, how often do they show up" rather
-    than being penalized by an unused portion of the lexicon. This is a property of
-    the DATA, not the lexicon.
+    appeared in the scanned data at all. A property of the DATA, not the lexicon.
 
 hits_per_raw_term (dividing by plain unique-term count, ignoring both corrections) is
 kept too for reference.
@@ -36,10 +30,31 @@ kept too for reference.
 The console output also prints, per bucket, how many of its terms were ever found:
   anti_vaccine: 5/7 terms present in scanned data
 
+PER-TERM COUNTS (--term-counts-json): optionally writes a JSON file structured just
+like lexicon.txt itself -- same bracketed sections, same terms -- except every term now
+carries its RAW (unweighted) appearance count from the scanned data instead of an
+optional @weight. A term listed under two buckets in lexicon.txt appears under both
+buckets here too, with the same count in each (its raw occurrence count doesn't depend
+on which bucket you're looking at it from; only its WEIGHTED contribution to a bucket's
+score does -- see hits_per_effective_term above for that). Terms that never matched
+anything are still included, with count 0, so the file is a complete mirror of the
+lexicon rather than only the terms that happened to hit:
+
+  {
+    "topics": {
+      "anti_vaccine": {"vaccine": 42, "vax": 10, "jab": 0, ...},
+      "anti_government": {"deep state": 5, ...}
+    },
+    "signals": {
+      "trollish": {"clown world": 3, ...}
+    }
+  }
+
 OUTPUT FORMAT: plain TSV, directly readable in both R and Python with no extra tooling
 required -- e.g. read.delim("bucket_counts.tsv") in base R, or
 pd.read_csv("bucket_counts.tsv", sep="\t") in pandas -- so the same file can be graphed
-in RStudio or in Python without needing any conversion step.
+in RStudio or in Python without needing any conversion step. The JSON output is likewise
+just standard json.load()/jsonlite::fromJSON() on either side.
 
 Signal buckets are tallied too but reported separately from topic buckets (bucket_type
 column), since they don't compete for weight the way topic buckets do -- signal-bucket
@@ -49,9 +64,10 @@ splitting is implemented, only topic-topic, matching Stage 4's scope).
 Example:
   python3 06_bucket_frequency.py --input "D:\\Parler" --lexicon lexicon.txt \
       --out bucket_counts.tsv --chart bucket_leaderboard.png --limit 500000
-  python3 06_bucket_frequency.py --input "D:\\Parler" --chart-metric hits_per_found_term ...
+  python3 06_bucket_frequency.py --input "D:\\Parler" --term-counts-json term_counts.json ...
 """
 import argparse
+import json
 from collections import defaultdict
 import parler_io
 import lexicon_io
@@ -59,11 +75,12 @@ import lexicon_io
 # ---------- defaults (edit these to change built-in behavior; overridable on the CLI) ----------
 DEFAULT_LEXICON = "lexicon.txt"
 DEFAULT_OUT = "bucket_counts.tsv"
-DEFAULT_CHART = ""                    # empty string = skip chart generation entirely
-DEFAULT_CHART_METRIC = "weighted_hits"  # one of: weighted_hits, hits_per_raw_term,
-                                         # hits_per_effective_term, hits_per_found_term
+DEFAULT_TERM_COUNTS_JSON = ""          # empty string = skip; per-term counts, lexicon.txt-shaped
+DEFAULT_CHART = ""                     # empty string = skip chart generation entirely
+DEFAULT_CHART_METRIC = "weighted_hits"   # one of: weighted_hits, hits_per_raw_term,
+                                          # hits_per_effective_term, hits_per_found_term
 DEFAULT_MIN_BODY_CHARS = 15
-DEFAULT_LIMIT = 0                     # stop after N records scanned; 0 = no limit
+DEFAULT_LIMIT = 0                      # stop after N records scanned; 0 = no limit
 
 
 def bucket_term_stats(bucket_lex: dict, term_weights: dict = None):
@@ -87,6 +104,8 @@ def main():
     ap.add_argument("--input", required=True, help="folder containing the Parler zip(s), or a single file")
     ap.add_argument("--lexicon", default=DEFAULT_LEXICON, help="bracketed-section lexicon (see lexicon_io.py)")
     ap.add_argument("--out", default=DEFAULT_OUT, help="TSV to write bucket counts/stats to")
+    ap.add_argument("--term-counts-json", default=DEFAULT_TERM_COUNTS_JSON,
+                     help="if set, write per-term raw appearance counts here, shaped like lexicon.txt")
     ap.add_argument("--chart", default=DEFAULT_CHART, help="if set, write a leaderboard bar chart PNG here")
     ap.add_argument("--chart-metric", default=DEFAULT_CHART_METRIC,
                      choices=["weighted_hits", "hits_per_raw_term", "hits_per_effective_term",
@@ -102,12 +121,16 @@ def main():
     topic_stats = bucket_term_stats(topic_lex, topic_weights)
     signal_stats = bucket_term_stats(signal_lex, term_weights=None)
 
-    topic_counts: dict[str, float] = defaultdict(float)
+    topic_counts: dict[str, float] = defaultdict(float)     # bucket -> weighted hit total
     signal_counts: dict[str, float] = defaultdict(float)
-    # which distinct terms actually matched at least once, per bucket -- a DATA property,
-    # separate from n_terms_raw/n_terms_effective which are LEXICON properties
-    topic_terms_found: dict[str, set] = defaultdict(set)
-    signal_terms_found: dict[str, set] = defaultdict(set)
+    # bucket -> term -> RAW (unweighted) occurrence count, initialized to 0 for every term
+    # so absent terms are still present in the output rather than silently missing
+    topic_term_counts: dict[str, dict[str, int]] = {
+        bucket: {t: 0 for t, _w in terms} for bucket, terms in topic_lex.items()
+    }
+    signal_term_counts: dict[str, dict[str, int]] = {
+        bucket: {t: 0 for t, _w in terms} for bucket, terms in signal_lex.items()
+    }
     n_posts_matched = 0
 
     paths = parler_io.find_inputs(a.input)
@@ -125,14 +148,14 @@ def main():
                     c = text.count(k)
                     if c:
                         topic_counts[bucket] += c * topic_weights.get(k, {}).get(bucket, 1.0)
-                        topic_terms_found[bucket].add(k)
+                        topic_term_counts[bucket][k] += c
                         matched_this_post = True
             for bucket, kws in signal_lex.items():
                 for k, _w in kws:
                     c = text.count(k)
                     if c:
                         signal_counts[bucket] += c
-                        signal_terms_found[bucket].add(k)
+                        signal_term_counts[bucket][k] += c
                         matched_this_post = True
             if matched_this_post:
                 n_posts_matched += 1
@@ -145,20 +168,20 @@ def main():
     print(f"[info] {n:,} records scanned, {n_posts_matched:,} post(s) matched at least one term")
 
     print("[info] terms present in scanned data, per bucket:")
-    for bucket in topic_lex:
-        n_raw, _ = topic_stats[bucket]
-        n_found = len(topic_terms_found.get(bucket, ()))
+    for bucket, counts in topic_term_counts.items():
+        n_raw = len(counts)
+        n_found = sum(1 for c in counts.values() if c > 0)
         print(f"       {bucket}: {n_found}/{n_raw} terms present")
-    for bucket in signal_lex:
-        n_raw, _ = signal_stats[bucket]
-        n_found = len(signal_terms_found.get(bucket, ()))
+    for bucket, counts in signal_term_counts.items():
+        n_raw = len(counts)
+        n_found = sum(1 for c in counts.values() if c > 0)
         print(f"       signal:{bucket}: {n_found}/{n_raw} terms present")
 
-    def build_rows(bucket_lex, counts, stats, terms_found):
+    def build_rows(bucket_lex, counts, stats, term_counts):
         rows = []
         for bucket in bucket_lex:
             n_raw, n_eff = stats[bucket]
-            n_found = len(terms_found.get(bucket, ()))
+            n_found = sum(1 for c in term_counts.get(bucket, {}).values() if c > 0)
             hits = counts.get(bucket, 0.0)
             hits_per_raw = (hits / n_raw) if n_raw else 0.0
             hits_per_eff = (hits / n_eff) if n_eff else 0.0
@@ -167,8 +190,8 @@ def main():
         rows.sort(key=lambda r: r[4], reverse=True)  # default sort: raw weighted_hits desc
         return rows
 
-    topic_rows = build_rows(topic_lex, topic_counts, topic_stats, topic_terms_found)
-    signal_rows = build_rows(signal_lex, signal_counts, signal_stats, signal_terms_found)
+    topic_rows = build_rows(topic_lex, topic_counts, topic_stats, topic_term_counts)
+    signal_rows = build_rows(signal_lex, signal_counts, signal_stats, signal_term_counts)
 
     with open(a.out, "w", encoding="utf-8") as f:
         f.write("bucket_type\tbucket\tn_terms_raw\tn_terms_effective\tn_terms_found\tweighted_hits\t"
@@ -182,6 +205,12 @@ def main():
 
     print(f"[done] {a.out}  (readable directly in R via read.delim(), or pandas via "
           f"read_csv(sep='\\t'))")
+
+    if a.term_counts_json:
+        with open(a.term_counts_json, "w", encoding="utf-8") as f:
+            json.dump({"topics": topic_term_counts, "signals": signal_term_counts}, f,
+                      indent=2, ensure_ascii=False, sort_keys=True)
+        print(f"[out] {a.term_counts_json}")
 
     if a.chart:
         _write_chart(topic_rows, a.chart, a.chart_metric)
